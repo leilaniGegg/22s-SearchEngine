@@ -15,7 +15,19 @@ private:
     string uuid;
     //string author;
     string date;
-    string text;
+    //string text; don't need rn?
+
+public:
+    Article();
+    Article(string title, string filename, string uuid, string date);
+    Article(const Article& temp);
+    ~Article();
+    Article& operator=(const Article& temp);
+    string getTitle();
+    string getFileName();
+    string getUUID();
+    string getDate();
+
 
 };
 #endif //INC_22S_FINAL_PROJ_ARTICLE_H

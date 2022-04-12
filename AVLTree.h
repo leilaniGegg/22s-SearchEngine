@@ -16,25 +16,27 @@ private:
         AVLNode(const T& element, AVLNode* lt, AVLNode* rt, int h = 0):data(element), left(lt), right(rt), height(h){}
     };
     AVLNode* root;
-    void insert(const T& x, AVLNode* t);
+    void insert(T& x, AVLNode*& t);
     void balance(AVLNode*& t);
 public:
     T element;
     AVLTree():root(nullptr){}
     AVLTree(const AVLTree& rhs) : root(nullptr){*this = rhs;}
-    ~AVLTree();//implement later
-    void insert(const T& x);
+    ~AVLTree(){};//implement later
+    void insert(T& x);
     int height(AVLNode* t);
     void rotateWithLeftChild(AVLNode*& k2);
     void rotateWithRightChild(AVLNode*& k1);
-    void doubleWithLeftChild(AVLNode*& k2);
-    void doubleWithRightChild(AVLNode*& k2);
+    void doubleWithLeftChild(AVLNode*& k3);
+    void doubleWithRightChild(AVLNode*& k3);
 };
 
 template <typename T>
-void AVLTree<T>::insert(const T& x){
+void AVLTree<T>::insert(T& x){
     insert(x,root);
 }
+
+
 
 template <typename T>
 int AVLTree<T>::height(AVLNode* t){
@@ -56,11 +58,26 @@ void AVLTree<T>::rotateWithRightChild(AVLNode*& k1){
     AVLNode* k2 = k1->right;
     k1->right = k2->left;
     k2->left = k1;
-
+    k1->height = max(height(k1->left), height(k1->right)) + 1;
+    k2->height = max(height(k2->right), k1->height) + 1;
+    //this should be right?
 }
 
 template <typename T>
-void AVLTree<T>::insert(const T& x, AVLNode* t){
+void AVLTree<T>::doubleWithLeftChild(AVLNode*& k3){
+    rotateWithRightChild(k3->left);
+    rotateWithLeftChild(k3);
+}
+
+template <typename T>
+void AVLTree<T>::doubleWithRightChild(AVLNode*& k3){
+    //not sure if this is right
+    rotateWithLeftChild(k3->right);
+    rotateWithRightChild(k3);
+}
+
+template <typename T>
+void AVLTree<T>::insert(T& x, AVLNode*& t){
     if(t == nullptr){
         t = new AVLNode(x, nullptr, nullptr);
     }
@@ -97,7 +114,7 @@ void AVLTree<T>::balance(AVLNode*& t){
             doubleWithRightChild(t);
         }
     }
-    t->height = max(height(t->left, height(t->right)) + 1);
+    t->height = max(height(t->left), height(t->right)) + 1;
 }
 
 #endif //INC_22S_FINAL_PROJ_AVLTREE_H
