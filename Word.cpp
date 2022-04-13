@@ -36,8 +36,20 @@ bool Word::operator<(const Word& temp){
     return false;
 }
 
+vector<Article>& Word::getArticles(){
+    return articles;
+}
+
+Word& Word::operator+(const Word& temp){
+    this->frequency++;
+    //if(count(temp.getArticles().begin(), temp.getArticles().end(), ))
+
+}
+
+void Word::addArticle(const Article& article){
+    articles.push_back(article);
+}
+
 string Word::getWord(){
     return word;
 }
-
-

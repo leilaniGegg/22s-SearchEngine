@@ -6,20 +6,17 @@
 #include "include/rapidjson/document.h"
 #include "Word.h"
 #include "AVLTree.h"
+#include "SearchEngine.h"
 
 
 using namespace std;
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
+    SearchEngine temp;
+    temp.processCorpus("../testdata");
     rapidjson::Document doc;
-    AVLTree<Word> test;
-    Word temp1("taco");
-    Word temp2("banana");
-    Word temp3("watermelon");
-    test.insert(temp1);
-    test.insert(temp2);
-    test.insert(temp3);
+    /*
     ifstream file("../testdata/blogs_0000001.json");
     if(!file.is_open()){
         cout << "failed to open" << endl;
@@ -41,6 +38,6 @@ int main() {
     string url = doc["url"].GetString();
     cout << "Title: " << title << endl;
     cout << "URL: " << url << endl;
-
+*/
     return 0;
 }
