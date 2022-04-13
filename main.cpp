@@ -13,9 +13,11 @@ using namespace std;
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
-    SearchEngine temp;
+
+
+    /*SearchEngine temp;
     temp.processCorpus("../testdata");
-    rapidjson::Document doc;
+    rapidjson::Document doc;*/
     /*
     ifstream file("../testdata/blogs_0000001.json");
     if(!file.is_open()){

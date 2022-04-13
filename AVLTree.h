@@ -4,6 +4,9 @@
 
 #ifndef INC_22S_FINAL_PROJ_AVLTREE_H
 #define INC_22S_FINAL_PROJ_AVLTREE_H
+#include <algorithm>
+using namespace std;
+
 template <typename T>
 class AVLTree{
 private:
@@ -33,10 +36,8 @@ public:
 
 template <typename T>
 void AVLTree<T>::insert(T& x){
-    insert(x,root);
+    insert(x, root);
 }
-
-
 
 template <typename T>
 int AVLTree<T>::height(AVLNode* t){
@@ -89,6 +90,7 @@ void AVLTree<T>::insert(T& x, AVLNode*& t){
     }
     else{
         //duplicates
+        t->data = t->data + x;
     }
     balance(t);
 }

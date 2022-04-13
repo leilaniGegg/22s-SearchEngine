@@ -3,3 +3,8 @@
 //
 
 #include "IndexHandler.h"
+
+void IndexHandler::writeToWordIndex(Word& x){
+    wordIndex.insert(x);
+}
+AVLTree<Word>& getWordIndex();

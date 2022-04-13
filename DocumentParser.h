@@ -18,10 +18,13 @@ namespace fs = std::filesystem;
 
 class DocumentParser{
 private:
-
+    vector<string> stopWords;
 public:
+    DocumentParser();
+    void generateStopWords();
     void open_dir_using_filesystem(const string& directory, IndexHandler& indexer);
-    void readFile(const string& filename);
-    void indexArticleWords(const Article& tempArticle, const string& articleText);
+    void readFile(const string& filename, IndexHandler& indexer);
+    void indexArticleWords(const Article& tempArticle, string& articleText, IndexHandler& indexer);
+    bool isStopWord(string word);
 };
 #endif //INC_22S_FINAL_PROJ_DOCUMENTPARSER_H
