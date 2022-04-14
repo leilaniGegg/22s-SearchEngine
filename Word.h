@@ -22,8 +22,9 @@ public:
     ~Word();
     Word(const Word& temp);
     Word& operator=(const Word& temp);
+    Word& operator=(const string& temp);
     string getWord();
-    bool operator<(const Word& temp);
+    bool operator<(const Word& temp)const;
     Word& operator+(const Word& temp);
     vector<Article>& getArticles();
     void addArticle(const Article& article);

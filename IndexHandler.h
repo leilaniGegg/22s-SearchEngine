@@ -6,6 +6,9 @@
 #define INC_22S_FINAL_PROJ_INDEXHANDLER_H
 #include "AVLTree.h"
 #include "Word.h"
+#include <iostream>
+using namespace std;
+
 class IndexHandler{
 private:
     AVLTree<Word> wordIndex;
@@ -13,7 +16,7 @@ private:
     AVLTree<Word> organizationsIndex;
 
 public:
-    void writeToWordIndex(Word& x);
+    void writeToWordIndex(const string& x);
     AVLTree<Word>& getWordIndex();
 };
 #endif //INC_22S_FINAL_PROJ_INDEXHANDLER_H

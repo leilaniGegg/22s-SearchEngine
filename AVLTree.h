@@ -19,14 +19,15 @@ private:
         AVLNode(const T& element, AVLNode* lt, AVLNode* rt, int h = 0):data(element), left(lt), right(rt), height(h){}
     };
     AVLNode* root;
-    void insert(T& x, AVLNode*& t);
+    void insert(const T& x, AVLNode*& t);
     void balance(AVLNode*& t);
+    void deleteTree(AVLNode*& t);
 public:
-    T element;
     AVLTree():root(nullptr){}
     AVLTree(const AVLTree& rhs) : root(nullptr){*this = rhs;}
-    ~AVLTree(){};//implement later
-    void insert(T& x);
+    ~AVLTree();//implement later
+    void insert(const T& x);
+    void deleteTree();
     int height(AVLNode* t);
     void rotateWithLeftChild(AVLNode*& k2);
     void rotateWithRightChild(AVLNode*& k1);
@@ -35,10 +36,28 @@ public:
 };
 
 template <typename T>
-void AVLTree<T>::insert(T& x){
+AVLTree<T>::~AVLTree(){
+    deleteTree();
+}
+
+template <typename T>
+void AVLTree<T>::insert(const T& x){
     insert(x, root);
 }
 
+template <typename T>
+void AVLTree<T>::deleteTree(){
+    deleteTree(this->root);
+}
+
+template <typename T>
+void AVLTree<T>::deleteTree(AVLNode*& t){
+    if(t != nullptr){
+        deleteTree(t->left);
+        deleteTree(t->right);
+        delete t;
+    }
+}
 template <typename T>
 int AVLTree<T>::height(AVLNode* t){
     return t == nullptr ? -1:t->height;
@@ -61,6 +80,7 @@ void AVLTree<T>::rotateWithRightChild(AVLNode*& k1){
     k2->left = k1;
     k1->height = max(height(k1->left), height(k1->right)) + 1;
     k2->height = max(height(k2->right), k1->height) + 1;
+    k1 = k2;
     //this should be right?
 }
 
@@ -78,7 +98,7 @@ void AVLTree<T>::doubleWithRightChild(AVLNode*& k3){
 }
 
 template <typename T>
-void AVLTree<T>::insert(T& x, AVLNode*& t){
+void AVLTree<T>::insert(const T& x, AVLNode*& t){
     if(t == nullptr){
         t = new AVLNode(x, nullptr, nullptr);
     }
@@ -101,7 +121,7 @@ void AVLTree<T>::balance(AVLNode*& t){
         return;
     }
     if(height(t->left) - height(t->right) > 1){
-        if(height(t->left) >= height(t->left->right)){ //case 1
+        if(height(t->left->left) >= height(t->left->right)){ //case 1
             rotateWithLeftChild(t);
         }
         else{                                          //case 2

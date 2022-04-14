@@ -4,7 +4,7 @@
 
 #include "IndexHandler.h"
 
-void IndexHandler::writeToWordIndex(Word& x){
-    wordIndex.insert(x);
+void IndexHandler::writeToWordIndex(const string& x){
+    wordIndex.insert(Word(x));
 }
 AVLTree<Word>& getWordIndex();

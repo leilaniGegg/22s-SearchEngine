@@ -29,7 +29,11 @@ Word& Word::operator=(const Word& temp){
     return *this;
 }
 
-bool Word::operator<(const Word& temp){
+Word& Word::operator=(const string& temp){
+    this->word = temp;
+    return *this;
+}
+bool Word::operator<(const Word& temp)const{
     if(this->word < temp.word){
         return true;
     }
@@ -43,7 +47,7 @@ vector<Article>& Word::getArticles(){
 Word& Word::operator+(const Word& temp){
     this->frequency++;
     //if(count(temp.getArticles().begin(), temp.getArticles().end(), ))
-
+    return *this;
 }
 
 void Word::addArticle(const Article& article){

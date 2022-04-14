@@ -7,17 +7,26 @@
 #include "Word.h"
 #include "AVLTree.h"
 #include "SearchEngine.h"
+#include "porter2_stemmer/porter2_stemmer.h"
 
 
 using namespace std;
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
+    Word test1("taco");
+    Word test2("pizza");
+    Word test3("gian");
+    Word test4("religion");
+    AVLTree<Word> tree;
+    tree.insert(test1);
+    tree.insert(test2);
+    tree.insert(test3);
+    tree.insert(test4);
 
-
-    /*SearchEngine temp;
+    SearchEngine temp;
     temp.processCorpus("../testdata");
-    rapidjson::Document doc;*/
+    rapidjson::Document doc;
     /*
     ifstream file("../testdata/blogs_0000001.json");
     if(!file.is_open()){
