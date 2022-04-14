@@ -4,7 +4,11 @@
 
 #include "IndexHandler.h"
 
-void IndexHandler::writeToWordIndex(const string& x){
-    wordIndex.insert(Word(x));
+void IndexHandler::writeToWordIndex(const string& x, const Article& tempArticle){
+    Word temp(x);
+    temp.addArticle(tempArticle);
+    wordIndex.insert(temp);
 }
-AVLTree<Word>& getWordIndex();
+AVLTree<Word>& IndexHandler::getWordIndex(){
+    return wordIndex;
+}

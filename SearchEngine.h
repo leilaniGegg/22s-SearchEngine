@@ -15,6 +15,8 @@ private:
     QueryProcessor query;
 public:
     void processCorpus(const string& directoryName);
+    //for speed demo
+    void parseQuery(const string& request);
 
 };
 #endif //INC_22S_FINAL_PROJ_SEARCHENGINE_H

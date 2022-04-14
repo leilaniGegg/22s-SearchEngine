@@ -33,6 +33,13 @@ Article& Article::operator=(const Article& temp){
     return *this;
 }
 
+bool Article::operator==(const Article& temp){
+    if(this->uuid == temp.uuid){
+        return true;
+    }
+    return false;
+}
+
 string Article::getTitle(){
     return title;
 }

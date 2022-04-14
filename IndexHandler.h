@@ -16,7 +16,7 @@ private:
     AVLTree<Word> organizationsIndex;
 
 public:
-    void writeToWordIndex(const string& x);
+    void writeToWordIndex(const string& x, const Article& tempArticle);
     AVLTree<Word>& getWordIndex();
 };
 #endif //INC_22S_FINAL_PROJ_INDEXHANDLER_H

@@ -3,3 +3,8 @@
 //
 
 #include "QueryProcessor.h"
+
+void QueryProcessor::findWord(const string& request, IndexHandler& indexer){
+    Word temp(request);
+    indexer.getWordIndex().find(temp).displayArticles();
+}

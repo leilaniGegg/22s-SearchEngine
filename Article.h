@@ -23,6 +23,7 @@ public:
     Article(const Article& temp);
     ~Article();
     Article& operator=(const Article& temp);
+    bool operator==(const Article& temp);
     string getTitle();
     string getFileName();
     string getUUID();

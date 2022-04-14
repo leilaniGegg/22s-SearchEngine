@@ -6,20 +6,22 @@
 #include "porter2_stemmer/porter2_stemmer.h"
 #include "porter2_stemmer/porter2_stemmer.cpp"
 
-DocumentParser::DocumentParser(){
-    generateStopWords();
-}
-
 void DocumentParser::generateStopWords(){
-    ifstream file("stopwords.txt");
+    ifstream file("../stopwords.txt");
     if(!file.is_open()){
-        std::cout << "failed to open" << std::endl;
+        std::cout << "failed to open stop words" << std::endl;
     }
     std::string templine;
     while(getline(file, templine)){
         stopWords.push_back(templine);
     }
 }
+
+DocumentParser::DocumentParser(){
+    generateStopWords();
+}
+
+
 
 void DocumentParser::open_dir_using_filesystem(const string& directory, IndexHandler& indexer){
     for (const auto & entry : fs::recursive_directory_iterator(directory)){
@@ -54,7 +56,7 @@ void DocumentParser::readFile(const std::string& filename, IndexHandler& indexer
 
 }
 
-bool DocumentParser::isStopWord(string word){
+bool DocumentParser::isStopWord(const string& word){
     if (std::count(stopWords.begin(), stopWords.end(), word)){
         return true;
     }
@@ -71,9 +73,9 @@ void DocumentParser::indexArticleWords(const Article& tempArticle, const string&
                 continue;
             }
             Porter2Stemmer::stem(tempWord);
-            cout << tempWord << endl; //test to see if its getting the correct words
+            //cout << tempWord << endl; //test to see if its getting the correct words
             //Word temp(tempWord);
-            indexer.writeToWordIndex(tempWord);
+            indexer.writeToWordIndex(tempWord, tempArticle);
         }
     }
 }

@@ -46,8 +46,18 @@ vector<Article>& Word::getArticles(){
 
 Word& Word::operator+(const Word& temp){
     this->frequency++;
-    //if(count(temp.getArticles().begin(), temp.getArticles().end(), ))
+    if(!count(this->articles.begin(), this->articles.end(), temp.articles.at(0))){
+        this->addArticle(temp.articles.at(0));
+    }
+
     return *this;
+}
+
+bool Word::operator==(const Word& temp)const{
+   if(this->word == temp.word){
+       return true;
+   }
+   return false;
 }
 
 void Word::addArticle(const Article& article){
@@ -56,4 +66,10 @@ void Word::addArticle(const Article& article){
 
 string Word::getWord(){
     return word;
+}
+
+void Word::displayArticles(){
+    for(int i = 0; i < articles.size(); i++){
+        cout << articles.at(i).getUUID() << endl;
+    }
 }

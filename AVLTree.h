@@ -19,14 +19,17 @@ private:
         AVLNode(const T& element, AVLNode* lt, AVLNode* rt, int h = 0):data(element), left(lt), right(rt), height(h){}
     };
     AVLNode* root;
+    int nodeCount = 0;
     void insert(const T& x, AVLNode*& t);
     void balance(AVLNode*& t);
     void deleteTree(AVLNode*& t);
+    T& find(const T& x, AVLNode*& t);
 public:
     AVLTree():root(nullptr){}
     AVLTree(const AVLTree& rhs) : root(nullptr){*this = rhs;}
-    ~AVLTree();//implement later
+    ~AVLTree();
     void insert(const T& x);
+    T& find(const T& x);
     void deleteTree();
     int height(AVLNode* t);
     void rotateWithLeftChild(AVLNode*& k2);
@@ -58,6 +61,7 @@ void AVLTree<T>::deleteTree(AVLNode*& t){
         delete t;
     }
 }
+
 template <typename T>
 int AVLTree<T>::height(AVLNode* t){
     return t == nullptr ? -1:t->height;
@@ -101,6 +105,7 @@ template <typename T>
 void AVLTree<T>::insert(const T& x, AVLNode*& t){
     if(t == nullptr){
         t = new AVLNode(x, nullptr, nullptr);
+        nodeCount++;
     }
     else if(x < t->data){
         insert(x, t->left);
@@ -113,6 +118,22 @@ void AVLTree<T>::insert(const T& x, AVLNode*& t){
         t->data = t->data + x;
     }
     balance(t);
+}
+
+template <typename T>
+T& AVLTree<T>::find(const T& x){
+   return find(x, root);
+}
+
+template <typename T>
+T& AVLTree<T>::find(const T& x, AVLNode*& t){
+    if(t != nullptr){
+        if(t->data == x){
+            return t->data; // not sure if this is right
+        }
+        find(x, t->left);
+        find(x, t->right);
+    }
 }
 
 template <typename T>

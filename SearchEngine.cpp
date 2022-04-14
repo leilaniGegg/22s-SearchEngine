@@ -7,3 +7,8 @@
 void SearchEngine::processCorpus(const string& directoryName){
     docPars.open_dir_using_filesystem(directoryName, indexer);
 }
+
+void SearchEngine::parseQuery(const string& request){
+    // call function from QueryProcessor and send the request and indexer
+    query.findWord(request, indexer);
+}
