@@ -66,6 +66,7 @@ bool DocumentParser::isStopWord(const string& word){
 void DocumentParser::indexArticleWords(const Article& tempArticle, const string& articleText, IndexHandler& indexer){ //not sure if this should just be reference
     stringstream inSS(articleText);
     std::string tempWord;
+    AVLTree<string> words;
     while(getline(inSS, tempWord, ' ')){
         if(!isStopWord(tempWord)) {
             Porter2Stemmer::trim(tempWord);
@@ -73,9 +74,13 @@ void DocumentParser::indexArticleWords(const Article& tempArticle, const string&
                 continue;
             }
             Porter2Stemmer::stem(tempWord);
-            //cout << tempWord << endl; //test to see if its getting the correct words
-            //Word temp(tempWord);
-            indexer.writeToWordIndex(tempWord, tempArticle);
+            if(words.find(tempWord)){ //if a word from current article is already in the main word index
+                continue;
+            }
+            else {
+                words.insert(tempWord);
+                indexer.writeToWordIndex(tempWord, tempArticle);
+            }
         }
     }
 }

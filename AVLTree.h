@@ -20,16 +20,16 @@ private:
     };
     AVLNode* root;
     int nodeCount = 0;
-    void insert(const T& x, AVLNode*& t);
+    T& insert(const T& x, AVLNode*& t);
     void balance(AVLNode*& t);
     void deleteTree(AVLNode*& t);
-    T& find(const T& x, AVLNode*& t);
+    bool find(const T& x, AVLNode*& t);
 public:
     AVLTree():root(nullptr){}
     AVLTree(const AVLTree& rhs) : root(nullptr){*this = rhs;}
     ~AVLTree();
-    void insert(const T& x);
-    T& find(const T& x);
+    T& insert(const T& x);
+    bool find(const T& x);
     void deleteTree();
     int height(AVLNode* t);
     void rotateWithLeftChild(AVLNode*& k2);
@@ -44,7 +44,7 @@ AVLTree<T>::~AVLTree(){
 }
 
 template <typename T>
-void AVLTree<T>::insert(const T& x){
+T& AVLTree<T>::insert(const T& x){
     insert(x, root);
 }
 
@@ -102,10 +102,11 @@ void AVLTree<T>::doubleWithRightChild(AVLNode*& k3){
 }
 
 template <typename T>
-void AVLTree<T>::insert(const T& x, AVLNode*& t){
+T& AVLTree<T>::insert(const T& x, AVLNode*& t){
     if(t == nullptr){
         t = new AVLNode(x, nullptr, nullptr);
         nodeCount++;
+        return t->data;
     }
     else if(x < t->data){
         insert(x, t->left);
@@ -116,24 +117,31 @@ void AVLTree<T>::insert(const T& x, AVLNode*& t){
     else{
         //duplicates
         t->data = t->data + x;
+        return t->data;
     }
     balance(t);
 }
 
 template <typename T>
-T& AVLTree<T>::find(const T& x){
+bool AVLTree<T>::find(const T& x){
    return find(x, root);
 }
 
 template <typename T>
-T& AVLTree<T>::find(const T& x, AVLNode*& t){
-    if(t != nullptr){
-        if(t->data == x){
-            return t->data; // not sure if this is right
-        }
-        find(x, t->left);
-        find(x, t->right);
+bool AVLTree<T>::find(const T& x, AVLNode*& t){
+    if(t == nullptr) {
+        return false;
     }
+    else if(x < t->data){
+        return find(x, t->left);
+    }
+    else if(t->data < x){
+        return find(x, t->right);
+    }
+    else {
+        return true;
+    }
+
 }
 
 template <typename T>

@@ -20,12 +20,12 @@ Word::~Word(){
 Word::Word(const Word& temp){
     this->word = temp.word;
     this->articles = temp.articles;
-    this->frequency = temp.frequency;
+    //this->frequency = temp.frequency;
 }
 Word& Word::operator=(const Word& temp){
     this->word = temp.word;
     this->articles = temp.articles;
-    this->frequency = temp.frequency;
+   // this->frequency = temp.frequency;
     return *this;
 }
 
@@ -45,11 +45,11 @@ vector<Article>& Word::getArticles(){
 }
 
 Word& Word::operator+(const Word& temp){
-    this->frequency++;
-    if(!count(this->articles.begin(), this->articles.end(), temp.articles.at(0))){
+    //this->frequency++;
+   /*if(!count(this->articles.begin(), this->articles.end(), temp.articles.at(0))){
         this->addArticle(temp.articles.at(0));
-    }
-
+    }*/
+    this->addArticle(temp.articles.at(0));
     return *this;
 }
 

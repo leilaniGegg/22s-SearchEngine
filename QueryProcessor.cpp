@@ -6,5 +6,5 @@
 
 void QueryProcessor::findWord(const string& request, IndexHandler& indexer){
     Word temp(request);
-    indexer.getWordIndex().find(temp).displayArticles();
+    //indexer.getWordIndex().find(temp).displayArticles();
 }

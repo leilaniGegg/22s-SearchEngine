@@ -16,7 +16,7 @@ class Word{
 private:
     string word;
     vector<Article> articles;
-    int frequency = 1; // if word is added to AVL Tree then it appeared at least once
+    //int frequency = 1; // if word is added to AVL Tree then it appeared at least once
 public:
     Word();
     Word(string word);
