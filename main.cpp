@@ -17,7 +17,7 @@ int main() {
 
     SearchEngine temp;
     temp.processCorpus("../testdata"); //input will be argv[2]
-    temp.parseQuery("soar"); //input will be argv[1]
+    temp.parseQuery("emerging"); //input will be argv[1]
     rapidjson::Document doc;
 
     return 0;

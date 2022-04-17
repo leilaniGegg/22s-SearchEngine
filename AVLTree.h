@@ -45,7 +45,7 @@ AVLTree<T>::~AVLTree(){
 
 template <typename T>
 T& AVLTree<T>::insert(const T& x){
-    insert(x, root);
+    return insert(x, root);
 }
 
 template <typename T>
@@ -105,17 +105,21 @@ template <typename T>
 T& AVLTree<T>::insert(const T& x, AVLNode*& t){
     if(t == nullptr){
         t = new AVLNode(x, nullptr, nullptr);
+        balance(t);
         nodeCount++;
         return t->data;
     }
     else if(x < t->data){
-        insert(x, t->left);
+        balance(t);
+        return insert(x, t->left);
     }
     else if(t->data < x){
-        insert(x, t->right);
+        balance(t);
+        return insert(x, t->right);
     }
     else{
         //duplicates
+        balance(t);
         t->data = t->data + x;
         return t->data;
     }

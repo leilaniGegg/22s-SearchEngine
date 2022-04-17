@@ -46,10 +46,11 @@ vector<Article>& Word::getArticles(){
 
 Word& Word::operator+(const Word& temp){
     //this->frequency++;
-   /*if(!count(this->articles.begin(), this->articles.end(), temp.articles.at(0))){
-        this->addArticle(temp.articles.at(0));
-    }*/
-    this->addArticle(temp.articles.at(0));
+   //size will be 0 if this function is called for finding purposes only instead of inserting
+   //in which case we don't really need to add anything
+   if(temp.articles.size() > 0) {
+       this->addArticle(temp.articles.at(0));
+   }
     return *this;
 }
 
@@ -69,7 +70,12 @@ string Word::getWord(){
 }
 
 void Word::displayArticles(){
-    for(int i = 0; i < articles.size(); i++){
-        cout << articles.at(i).getUUID() << endl;
+    if(articles.empty()){
+        cout << "No articles associated with " << word << endl;
+    }
+    else {
+        for (int i = 0; i < articles.size(); i++) {
+            cout << articles.at(i).getUUID() << endl;
+        }
     }
 }

@@ -3,8 +3,12 @@
 //
 
 #include "QueryProcessor.h"
+#include "porter2_stemmer/porter2_stemmer.h"
 
 void QueryProcessor::findWord(const string& request, IndexHandler& indexer){
-    Word temp(request);
-    //indexer.getWordIndex().find(temp).displayArticles();
+    string tempRequest = request;
+    Porter2Stemmer::trim(tempRequest);
+    Porter2Stemmer::stem(tempRequest);
+    Word temp(tempRequest);
+    indexer.getWordIndex().insert(temp).displayArticles();
 }
