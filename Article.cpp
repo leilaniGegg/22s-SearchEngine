@@ -10,12 +10,13 @@ Article::Article(){
     uuid = "";
     date = "";
 }
-Article::Article(string title, string filename, string uuid, string date){
+Article::Article(const string& title,const string& filename, const string& uuid, const string& date){
     this->title = title;
     this->filename = filename;
     this->uuid = uuid;
     this->date = date;
 }
+
 Article::Article(const Article& temp){
     this->title = temp.title;
     this->filename = temp.filename;
@@ -40,15 +41,15 @@ bool Article::operator==(const Article& temp){
     return false;
 }
 
-string Article::getTitle(){
+string& Article::getTitle(){
     return title;
 }
-string Article::getFileName(){
+string& Article::getFileName(){
     return filename;
 }
-string Article::getUUID(){
+string& Article::getUUID(){
     return uuid;
 }
-string Article::getDate(){
+string& Article::getDate(){
     return date;
 }

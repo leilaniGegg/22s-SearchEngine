@@ -20,16 +20,18 @@ private:
     };
     AVLNode* root;
     int nodeCount = 0;
-    T& insert(const T& x, AVLNode*& t);
+    T* insert(const T& x, AVLNode*& t);
+    //T& find(const T& x, AVLNode*& t);
     void balance(AVLNode*& t);
     void deleteTree(AVLNode*& t);
-    bool find(const T& x, AVLNode*& t);
+    bool contains(const T& x, AVLNode*& t);
 public:
     AVLTree():root(nullptr){}
     AVLTree(const AVLTree& rhs) : root(nullptr){*this = rhs;}
     ~AVLTree();
-    T& insert(const T& x);
-    bool find(const T& x);
+    T* insert(const T& x);
+    //T& find(const T& x);
+    bool contains(const T& x);
     void deleteTree();
     int height(AVLNode* t);
     void rotateWithLeftChild(AVLNode*& k2);
@@ -44,9 +46,14 @@ AVLTree<T>::~AVLTree(){
 }
 
 template <typename T>
-T& AVLTree<T>::insert(const T& x){
+T* AVLTree<T>::insert(const T& x){
     return insert(x, root);
 }
+
+/*template <typename T>
+T& AVLTree<T>::find(const T& x){
+    return find(x, root);
+}*/
 
 template <typename T>
 void AVLTree<T>::deleteTree(){
@@ -102,12 +109,12 @@ void AVLTree<T>::doubleWithRightChild(AVLNode*& k3){
 }
 
 template <typename T>
-T& AVLTree<T>::insert(const T& x, AVLNode*& t){
+T* AVLTree<T>::insert(const T& x, AVLNode*& t){
     if(t == nullptr){
         t = new AVLNode(x, nullptr, nullptr);
-        balance(t);
         nodeCount++;
-        return t->data;
+        //balance(t);
+        return &(t->data);
     }
     else if(x < t->data){
         balance(t);
@@ -117,30 +124,49 @@ T& AVLTree<T>::insert(const T& x, AVLNode*& t){
         balance(t);
         return insert(x, t->right);
     }
-    else{
+    else if(x == t->data){
         //duplicates
-        balance(t);
+        //balance(t);
         t->data = t->data + x;
+        return &(t->data);
+    }
+    //balance(t);
+}
+
+/*template <typename T>
+T& AVLTree<T>::find(const T& x, AVLNode*& t){
+    if(t == nullptr){
+        t = new AVLNode(x, nullptr, nullptr);
+        balance(t);
         return t->data;
     }
-    balance(t);
+    else if(x < t->data){
+        return insert(x, t->left);
+    }
+    else if(t->data < x){
+        return insert(x, t->right);
+    }
+    else{
+        //duplicates
+        return t->data;
+    }
+}*/
+
+template <typename T>
+bool AVLTree<T>::contains(const T& x){
+   return contains(x, root);
 }
 
 template <typename T>
-bool AVLTree<T>::find(const T& x){
-   return find(x, root);
-}
-
-template <typename T>
-bool AVLTree<T>::find(const T& x, AVLNode*& t){
+bool AVLTree<T>::contains(const T& x, AVLNode*& t){
     if(t == nullptr) {
         return false;
     }
     else if(x < t->data){
-        return find(x, t->left);
+        return contains(x, t->left);
     }
     else if(t->data < x){
-        return find(x, t->right);
+        return contains(x, t->right);
     }
     else {
         return true;

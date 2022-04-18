@@ -10,5 +10,5 @@ void QueryProcessor::findWord(const string& request, IndexHandler& indexer){
     Porter2Stemmer::trim(tempRequest);
     Porter2Stemmer::stem(tempRequest);
     Word temp(tempRequest);
-    indexer.getWordIndex().insert(temp).displayArticles();
+    indexer.getWordIndex().insert(temp)->displayArticles();
 }

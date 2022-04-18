@@ -19,12 +19,12 @@ private:
     //int frequency = 1; // if word is added to AVL Tree then it appeared at least once
 public:
     Word();
-    Word(string word);
+    Word(const string& word);
     ~Word();
     Word(const Word& temp);
     Word& operator=(const Word& temp);
     Word& operator=(const string& temp);
-    string getWord();
+    string& getWord();
     bool operator==(const Word& temp)const;
     bool operator<(const Word& temp)const;
     Word& operator+(const Word& temp);

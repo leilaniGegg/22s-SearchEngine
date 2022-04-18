@@ -19,7 +19,8 @@ namespace fs = std::filesystem;
 
 class DocumentParser{
 private:
-    vector<string> stopWords;
+    //vector<string> stopWords;
+    AVLTree<string> stopWords;
 public:
     DocumentParser();
     void generateStopWords();

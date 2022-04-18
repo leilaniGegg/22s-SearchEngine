@@ -1,24 +1,21 @@
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <filesystem>
-#include <dirent.h>
 #include "include/rapidjson/document.h"
-#include "Word.h"
-#include "AVLTree.h"
 #include "SearchEngine.h"
-#include "porter2_stemmer/porter2_stemmer.h"
+#include <chrono>
 
 
 using namespace std;
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
+    start = std::chrono::high_resolution_clock::now();
 
     SearchEngine temp;
     temp.processCorpus("../testdata"); //input will be argv[2]
-    temp.parseQuery("emerging"); //input will be argv[1]
-    rapidjson::Document doc;
+    temp.parseQuery("big"); //input will be argv[1]
+    end = std::chrono::high_resolution_clock::now();
+    cout << std::chrono::duration<double>(end-start).count() << endl;
 
     return 0;
 }

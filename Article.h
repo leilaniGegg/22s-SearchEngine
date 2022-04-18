@@ -19,15 +19,15 @@ private:
 
 public:
     Article();
-    Article(string title, string filename, string uuid, string date);
+    Article(const string& title,const string& filename, const string& uuid, const string& date);
     Article(const Article& temp);
     ~Article();
     Article& operator=(const Article& temp);
     bool operator==(const Article& temp);
-    string getTitle();
-    string getFileName();
-    string getUUID();
-    string getDate();
+    string& getTitle();
+    string& getFileName();
+    string& getUUID();
+    string& getDate();
 
 
 };

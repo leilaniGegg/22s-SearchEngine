@@ -8,7 +8,7 @@ Word::Word(){
     word = "";
 }
 
-Word::Word(string word){
+Word::Word(const string& word){
     this->word = word;
 }
 
@@ -65,7 +65,7 @@ void Word::addArticle(const Article& article){
     articles.push_back(article);
 }
 
-string Word::getWord(){
+string& Word::getWord(){
     return word;
 }
 

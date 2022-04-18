@@ -13,7 +13,7 @@ void DocumentParser::generateStopWords(){
     }
     std::string templine;
     while(getline(file, templine)){
-        stopWords.push_back(templine);
+        stopWords.insert(templine);
     }
 }
 
@@ -21,15 +21,13 @@ DocumentParser::DocumentParser(){
     generateStopWords();
 }
 
-
-
 void DocumentParser::open_dir_using_filesystem(const string& directory, IndexHandler& indexer){
     for (const auto & entry : fs::recursive_directory_iterator(directory)){
         if (entry.is_regular_file()) {
             if (entry.path().extension().string() == ".json") {
                 std::string filename = entry.path().c_str();
                 readFile(filename, indexer);
-                std::cout << filename << std::endl;
+                //std::cout << filename << std::endl;
             }
         }
     }
@@ -49,15 +47,13 @@ void DocumentParser::readFile(const std::string& filename, IndexHandler& indexer
     file.close();
     doc.Parse(fullfile.c_str());
     Article temp(doc["title"].GetString(), filename, doc["uuid"].GetString(), doc["published"].GetString());
-    std::cout << "Title: " << doc["title"].GetString() << std::endl;
-    string articleText = doc["text"].GetString();
-    indexArticleWords(temp, articleText, indexer);
-
+    //std::cout << "Title: " << doc["title"].GetString() << std::endl;
+    indexArticleWords(temp, doc["text"].GetString(), indexer);
 
 }
 
 bool DocumentParser::isStopWord(const string& word){
-    if (std::count(stopWords.begin(), stopWords.end(), word)){
+    if (stopWords.contains(word)){
         return true;
     }
     return false;
@@ -74,10 +70,7 @@ void DocumentParser::indexArticleWords(const Article& tempArticle, const string&
                 continue;
             }
             Porter2Stemmer::stem(tempWord);
-            if(words.find(tempWord)){ //if a word from current article is already in the main word index
-                continue;
-            }
-            else {
+            if(!words.contains(tempWord)){ //if a word from current article is already in the main word index
                 words.insert(tempWord);
                 indexer.writeToWordIndex(tempWord, tempArticle);
             }
