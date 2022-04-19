@@ -7,13 +7,12 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char** argv) {
     std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
     start = std::chrono::high_resolution_clock::now();
-
     SearchEngine temp;
-    temp.processCorpus("../testdata"); //input will be argv[2]
-    temp.parseQuery("big"); //input will be argv[1]
+    temp.processCorpus(argv[2]); //input will be argv[2]
+    temp.parseQuery(argv[1]); //input will be argv[1]
     end = std::chrono::high_resolution_clock::now();
     cout << std::chrono::duration<double>(end-start).count() << endl;
 

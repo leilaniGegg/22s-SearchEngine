@@ -8,13 +8,14 @@
 
 void DocumentParser::generateStopWords(){
     ifstream file("../stopwords.txt");
-    if(!file.is_open()){
+    /*if(!file.is_open()){
         std::cout << "failed to open stop words" << std::endl;
-    }
+    }*/
     std::string templine;
     while(getline(file, templine)){
         stopWords.insert(templine);
     }
+    file.close();
 }
 
 DocumentParser::DocumentParser(){
@@ -25,9 +26,7 @@ void DocumentParser::open_dir_using_filesystem(const string& directory, IndexHan
     for (const auto & entry : fs::recursive_directory_iterator(directory)){
         if (entry.is_regular_file()) {
             if (entry.path().extension().string() == ".json") {
-                std::string filename = entry.path().c_str();
-                readFile(filename, indexer);
-                //std::cout << filename << std::endl;
+                readFile(entry.path().c_str(), indexer); //sending the filename and indexer
             }
         }
     }
@@ -36,9 +35,9 @@ void DocumentParser::open_dir_using_filesystem(const string& directory, IndexHan
 void DocumentParser::readFile(const std::string& filename, IndexHandler& indexer){
     rapidjson::Document doc;
     ifstream file(filename);
-    if(!file.is_open()){
+    /*if(!file.is_open()){
         cout << "failed to open" << endl;
-    }
+    }*/
     std::string fullfile;
     std::string line;
     while(getline(file, line)){
@@ -65,15 +64,15 @@ void DocumentParser::indexArticleWords(const Article& tempArticle, const string&
     AVLTree<string> words;
     while(getline(inSS, tempWord, ' ')){
         if(!isStopWord(tempWord)) {
-            Porter2Stemmer::trim(tempWord);
-            if (tempWord == ""){ //basically if tempword was a number the trim method makes it null
-                continue;
-            }
+             Porter2Stemmer::trim(tempWord);
+            //if (tempWord == ""){ //basically if tempword was a number the trim method makes it null
+              //  continue;
+            //}
             Porter2Stemmer::stem(tempWord);
-            if(!words.contains(tempWord)){ //if a word from current article is already in the main word index
-                words.insert(tempWord);
-                indexer.writeToWordIndex(tempWord, tempArticle);
-            }
+                if (!words.contains(tempWord)) { //if a word from current article is already in the main word index
+                    words.insert(tempWord);
+                    indexer.writeToWordIndex(tempWord, tempArticle);
+                }
         }
     }
 }

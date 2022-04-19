@@ -20,6 +20,7 @@ private:
 public:
     Article();
     Article(const string& title,const string& filename, const string& uuid, const string& date);
+    Article(const string& uuid);
     Article(const Article& temp);
     ~Article();
     Article& operator=(const Article& temp);

@@ -12,8 +12,7 @@ using namespace std;
 class IndexHandler{
 private:
     AVLTree<Word> wordIndex;
-    AVLTree<Word> peopleIndex; //don't need for speed test
-    AVLTree<Word> organizationsIndex;
+    //here will be AVLTree for for people and organizations( or hashmap)
 
 public:
     void writeToWordIndex(const string& x, const Article& tempArticle);

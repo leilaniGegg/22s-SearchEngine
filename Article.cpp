@@ -17,6 +17,13 @@ Article::Article(const string& title,const string& filename, const string& uuid,
     this->date = date;
 }
 
+Article::Article(const string& uuid){
+    this->uuid = uuid;
+    title = "";
+    filename = "";
+    date = "";
+}
+
 Article::Article(const Article& temp){
     this->title = temp.title;
     this->filename = temp.filename;
