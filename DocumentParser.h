@@ -5,10 +5,9 @@
 #ifndef INC_22S_FINAL_PROJ_DOCUMENTPARSER_H
 #define INC_22S_FINAL_PROJ_DOCUMENTPARSER_H
 #include <string>
-
+#include <sstream>
 #include <iostream>
 #include <dirent.h>
-
 #include "include/rapidjson/document.h"
 #include <sys/stat.h>
 #include <filesystem>
@@ -19,7 +18,6 @@ namespace fs = std::filesystem;
 
 class DocumentParser{
 private:
-    //vector<string> stopWords;
     AVLTree<string> stopWords;
 public:
     DocumentParser();
