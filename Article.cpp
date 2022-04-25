@@ -41,13 +41,24 @@ Article& Article::operator=(const Article& temp){
     return *this;
 }
 
-bool Article::operator==(const Article& temp){
+bool Article::operator<(const Article& temp)const{
+    if(this->uuid < temp.uuid){
+        return true;
+    }
+    return false;
+}
+
+bool Article::operator==(const Article& temp)const{
     if(this->uuid == temp.uuid){
         return true;
     }
     return false;
 }
 
+ostream& operator<<(ostream& output, const Article& temp){
+    output << temp.title;
+    return output;
+}
 string& Article::getTitle(){
     return title;
 }

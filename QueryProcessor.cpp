@@ -15,52 +15,99 @@ void QueryProcessor::findWord(const string& request, IndexHandler& indexer){
 
 void QueryProcessor::query(const string& request, IndexHandler& indexer){
     //Request looks like: "AND social network"
-    set<Article> matches; //data type may change when hash table is made
-    //string currOperator;  //could be AND, OR, NOT
+    string currOperator;  //could be AND, OR, NOT (default to OR??) not sure
     stringstream inSS(request);
     string tempWord;
+    vector<string> tempList;
     while(getline(inSS, tempWord, ' ')){
         if(tempWord == "AND"){
-            string w1, w2;
-            getline(inSS, w1, ' ');
-            getline(inSS, w2, ' ');
-            addArticles(tempWord, w1, w2, matches, indexer);
+            if(currOperator != tempWord && currOperator != ""){
+                addArticles(currOperator, tempList, indexer);
+            }
+            currOperator = tempWord;
+            tempList.clear();
         }
         else if(tempWord == "OR"){
-            string w1, w2;
-            getline(inSS, w1, ' ');
-            getline(inSS, w2, ' ');
-            addArticles(tempWord, w1, w2, matches, indexer);
+            if(currOperator != tempWord && currOperator != ""){
+                addArticles(currOperator, tempList, indexer);
+            }
+            currOperator = tempWord;
+            tempList.clear();
         }
         else if(tempWord == "NOT"){
-            string w1;
-            getline(inSS, w1, ' ');
-            removeArticles(w1, matches, indexer);
+            if(currOperator != tempWord){
+                //removeArticles(tempList, indexer);
+                //the only operator between
+                if(tempList.size() == 1){
+                    addArticle(tempList.at(0), indexer);
+                }
+                else{
+                    addArticles(currOperator, tempList, indexer);
+                }
+            }
+            else if(currOperator == ""){
+                addArticle(tempList.at(0), indexer);
+            }
+            currOperator = tempWord;
+            tempList.clear();
         }
         else{ //normal word
-            string w1;
-            getline(inSS, w1, ' ');
-            addArticle(w1, matches, indexer);
+            tempList.push_back(tempWord);
         }
     }
-
+    if(currOperator == ""){
+        addArticle(tempList.at(0), indexer);
+    }
+    else if(currOperator == "AND" || currOperator == "OR") {
+        addArticles(currOperator, tempList, indexer); //will need to add checks for if its AND or OR or NOT, etc
+    }
+    else if(currOperator == "NOT"){
+        removeArticles(tempList, indexer);
+    }
 }
 
-void QueryProcessor::addArticles(const string& op, const string& word1, const string& word2,
-                                 set<Article>& matches, IndexHandler& indexer){
+void QueryProcessor::addArticles(const string& op, vector<string>& words, IndexHandler& indexer){
     if(op == "AND") {
-        vector<Article> *word1Articles = &(indexer.getWordIndex().insert(Word(word1))->getArticles());
-        vector<Article> *word2Articles = &(indexer.getWordIndex().insert(Word(word2))->getArticles());
-        set_intersection(word1Articles->begin(), word1Articles->end(), word2Articles->begin(), word2Articles->end(), matches.begin());
+        // add all the articles from the first word to the matches
+        vector<Article>* firstWord = &(indexer.getWordIndex().insert(Word(words.at(0)))->getArticles());
+        for(int i = 0; i < firstWord->size(); i++){
+            matches.insert(firstWord->at(i));
+        }
+        for(int i = 1; i < words.size(); i++){
+            //vector<Article> templist;
+            vector<Article> *word1Articles = &(indexer.getWordIndex().insert(Word(words.at(i)))->getArticles());
+            vector<Article> deleteThese;
+            for(auto itr = matches.begin(); itr != matches.end(); itr++){
+                if(find(word1Articles->begin(), word1Articles->end(), *itr) == word1Articles->end()){
+                    deleteThese.push_back(*itr);
+                }
+            }
+            if(!deleteThese.empty()) {
+                for (int j = 0; j < word1Articles->size(); j++) {
+                    matches.erase(deleteThese.at(i));
+                }
+            }
+        }
     }
     else if(op == "OR"){
-        vector<Article> *word1Articles = &(indexer.getWordIndex().insert(Word(word1))->getArticles());
-        vector<Article> *word2Articles = &(indexer.getWordIndex().insert(Word(word2))->getArticles());
-        set_union(word1Articles->begin(), word1Articles->end(), word2Articles->begin(), word2Articles->end(), matches.begin());
+        // add all the articles from the first word to the matches
+        vector<Article>* firstWord = &(indexer.getWordIndex().insert(Word(words.at(0)))->getArticles());
+        for(int i = 0; i < firstWord->size(); i++){
+            matches.insert(firstWord->at(i));
+        }
+        for(int i = 1; i < words.size(); i++){
+            //vector<Article> templist;
+            vector<Article> *word1Articles = &(indexer.getWordIndex().insert(Word(words.at(i)))->getArticles());
+            for(int j = 0; j < word1Articles->size();j++){
+                if(find(matches.begin(), matches.end(), word1Articles->at(j)) == matches.end()){ //means the current article is not already in matches
+                    matches.insert(word1Articles->at(j));
+                }
+            }
+        }
     }
 }
 
-void QueryProcessor::addArticle(const string& word1, set<Article>& matches, IndexHandler& indexer){
+void QueryProcessor::addArticle(const string& word1, IndexHandler& indexer){
     //if single word query just add all the words articles to matches set
      vector<Article>* temp = &(indexer.getWordIndex().insert(Word(word1))->getArticles());
      for(int i = 0; i < temp->size(); i++){
@@ -68,8 +115,19 @@ void QueryProcessor::addArticle(const string& word1, set<Article>& matches, Inde
      }
 }
 
-void QueryProcessor::removeArticles(const string& word1, set<Article>& matches, IndexHandler& indexer){
+void QueryProcessor::removeArticles(vector<string> words, IndexHandler& indexer){
     //I think this will work, will find the difference and result in set with elements in matches but not in word1Articles
-    vector<Article> *word1Articles = &(indexer.getWordIndex().insert(Word(word1))->getArticles());
-    set_difference(matches.begin(), matches.end(), word1Articles->begin(), word1Articles->end(), matches.begin());
+
+    for(int i = 0; i < words.size(); i++) {
+        vector<Article>* temp = &(indexer.getWordIndex().insert(Word(words.at(i)))->getArticles());
+        for(int j = 0; j < temp->size(); j++){
+            matches.erase(temp->at(j));
+        }
+    }
+}
+
+void QueryProcessor::printMatches(){
+    for(auto itr = matches.begin(); itr != matches.end(); itr++){
+        cout << *itr << endl;
+    }
 }

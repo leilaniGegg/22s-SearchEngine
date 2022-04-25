@@ -12,7 +12,7 @@ int main(int argc, char** argv) {
     start = std::chrono::high_resolution_clock::now();
     SearchEngine temp;
     temp.processCorpus(argv[2]); //input will be argv[2]
-    temp.parseQuery(argv[1]); //input will be argv[1]
+    temp.parseQuery("hour NOT market"); //input will be argv[1]
     end = std::chrono::high_resolution_clock::now();
     cout << std::chrono::duration<double>(end-start).count() << endl;
 

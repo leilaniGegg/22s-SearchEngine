@@ -24,7 +24,9 @@ public:
     Article(const Article& temp);
     ~Article();
     Article& operator=(const Article& temp);
-    bool operator==(const Article& temp);
+    bool operator<(const Article& temp)const;
+    friend ostream& operator<<(ostream& output, const Article& temp);
+    bool operator==(const Article& temp)const; //maybe delete const if it causes problems
     string& getTitle();
     string& getFileName();
     string& getUUID();

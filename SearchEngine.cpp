@@ -10,5 +10,6 @@ void SearchEngine::processCorpus(const string& directoryName){
 
 void SearchEngine::parseQuery(const string& request){
     // call function from QueryProcessor and send the request and indexer
-    query.findWord(request, indexer);
+    query.query(request, indexer);
+    query.printMatches();
 }
