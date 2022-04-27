@@ -46,7 +46,13 @@ void DocumentParser::readFile(const std::string& filename, IndexHandler& indexer
     file.close();
     doc.Parse(fullfile.c_str());
     Article temp(doc["title"].GetString(), filename, doc["uuid"].GetString(), doc["published"].GetString());
-    //std::cout << "Title: " << doc["title"].GetString() << std::endl;
+
+    for (auto &x : doc["entities"]["persons"].GetArray()) {
+        indexer.writeToPersonIndex(x["name"].GetString(), temp);
+    }
+    for (auto &x : doc["entities"]["organizations"].GetArray()) {
+        indexer.writeToOrgIndex(x["name"].GetString(), temp);
+    }
     indexArticleWords(temp, doc["text"].GetString(), indexer);
 
 }

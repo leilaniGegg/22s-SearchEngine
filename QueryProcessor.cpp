@@ -51,6 +51,17 @@ void QueryProcessor::query(const string& request, IndexHandler& indexer){
             currOperator = tempWord;
             tempList.clear();
         }
+        else if(tempWord == "PERSON"){
+               //only have one word after, no need to add to templist
+               cout << "here" << endl;
+                getline(inSS, tempWord, ' ');
+                addPersonArticles(tempWord, indexer);
+        }
+        else if(tempWord == "ORG"){
+            //only have one word after, no need to add to templist
+            getline(inSS, tempWord, ' ');
+            addOrgArticles(tempWord, indexer);
+        }
         else{ //normal word
             tempList.push_back(tempWord);
         }
@@ -113,6 +124,36 @@ void QueryProcessor::addArticle(const string& word1, IndexHandler& indexer){
      for(int i = 0; i < temp->size(); i++){
          matches.insert(temp->at(i));
      }
+}
+
+void QueryProcessor::addPersonArticles(const string& person, IndexHandler& indexer){
+    vector<Article>* temp = &(indexer.getPersonIndex().insert(Word(person))->getArticles());
+    vector<Article> deleteThese;
+    for(auto itr = matches.begin(); itr != matches.end(); itr++){
+        if(find(temp->begin(), temp->end(), *itr) == temp->end()){
+            deleteThese.push_back(*itr);
+        }
+    }
+    if(!deleteThese.empty()) {
+        for (int j = 0; j < temp->size(); j++) {
+            matches.erase(deleteThese.at(j));
+        }
+    }
+}
+
+void QueryProcessor::addOrgArticles(const string& org, IndexHandler& indexer){
+    vector<Article>* temp = &(indexer.getOrgIndex().insert(Word(org))->getArticles());
+    vector<Article> deleteThese;
+    for(auto itr = matches.begin(); itr != matches.end(); itr++){
+        if(find(temp->begin(), temp->end(), *itr) == temp->end()){
+            deleteThese.push_back(*itr);
+        }
+    }
+    if(!deleteThese.empty()) {
+        for (int j = 0; j < temp->size(); j++) {
+            matches.erase(deleteThese.at(j));
+        }
+    }
 }
 
 void QueryProcessor::removeArticles(vector<string> words, IndexHandler& indexer){

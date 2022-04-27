@@ -25,6 +25,7 @@ public:
     void open_dir_using_filesystem(const string& directory, IndexHandler& indexer);
     void readFile(const string& filename, IndexHandler& indexer);
     void indexArticleWords(const Article& tempArticle, const string& articleText, IndexHandler& indexer);
+    void indexArticlePeople(const Article& tempArticle, const string& articleText, IndexHandler& indexer);
     bool isStopWord(const string& word);
 };
 #endif //INC_22S_FINAL_PROJ_DOCUMENTPARSER_H
