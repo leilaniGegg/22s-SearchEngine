@@ -17,9 +17,9 @@ void IndexHandler::writeToPersonIndex(const string& x, const Article& tempArticl
 }
 
 void IndexHandler::writeToOrgIndex(const string& x, const Article& tempArticle){
-    Word temp(x);
-    temp.addArticle(tempArticle);
-    orgIndex.insert(temp);
+    set<Article> temp;
+    temp.insert(tempArticle);
+    orgIndex.insert(x, temp);
 }
 AVLTree<Word>& IndexHandler::getWordIndex(){
     return wordIndex;
@@ -29,6 +29,6 @@ HashTable<string, set<Article>>& IndexHandler::getPersonIndex(){
     return personIndex;
 }
 
-AVLTree<Word>& IndexHandler::getOrgIndex(){
+HashTable<string, set<Article>>& IndexHandler::getOrgIndex(){
     return orgIndex;
 }

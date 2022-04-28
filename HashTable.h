@@ -22,8 +22,8 @@ private:
     vector<list<pair<K, V>>> table;
 public:
     HashTable();
-    void insert(K key, V value);
-    V& deleteNode(K key);
+    void insert(const K& key, const V& value);
+    V& deleteNode(const K& key);
     V& at(K key);
     size_t hashFunction(const K& key);
     int sizeOf();
@@ -37,7 +37,7 @@ HashTable<K, V>::HashTable(){
 }
 
 template <typename K, typename V>
-void HashTable<K, V>::insert(K key, V value){
+void HashTable<K, V>::insert(const K& key, const V& value){
     pair<K, V> temp(key, value);
     int hashKey = hashFunction(key);
     if(hashKey < 0){
@@ -63,8 +63,11 @@ void HashTable<K, V>::insert(K key, V value){
 }
 
 template <typename K, typename V>
-V& HashTable<K, V>::deleteNode(K key){
+V& HashTable<K, V>::deleteNode(const K& key){
     int hashKey = hashFunction(key);
+    if(hashKey < 0){
+        hashKey *= -1;
+    }
     hashKey %= capacity;
     auto& row = table[hashKey];
     for(auto itr = row.begin(); itr != row.end(); itr++){

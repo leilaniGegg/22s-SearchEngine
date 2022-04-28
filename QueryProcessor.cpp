@@ -142,7 +142,7 @@ void QueryProcessor::addPersonArticles(const string& person, IndexHandler& index
 }
 
 void QueryProcessor::addOrgArticles(const string& org, IndexHandler& indexer){
-    vector<Article>* temp = &(indexer.getOrgIndex().insert(Word(org))->getArticles());
+    set<Article>* temp = &(indexer.getOrgIndex().at(org));
     vector<Article> deleteThese;
     for(auto itr = matches.begin(); itr != matches.end(); itr++){
         if(find(temp->begin(), temp->end(), *itr) == temp->end()){
