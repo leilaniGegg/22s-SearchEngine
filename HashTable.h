@@ -8,94 +8,89 @@
 #include <list>
 #include <functional>
 #include <iostream>
+#include <cmath>
+#include "Article.h"
 
 using namespace std;
 
 template <typename K, typename V>
-class HashTableNode{
-public:
-    K key;
-    vector<V> value;
-    HashTableNode(K key, V val){
-        this->key = key;
-        this->value.push_back(val);
-    }
-};
-
-template <typename K, typename V>
 class HashTable{
 private:
-    int size;
-    int capacity;
-    vector<list<HashTableNode<K,V>>> table;
+    int size = 0;
+    int capacity = 100000;
+    //pair will be <string, vector<Article>
+    vector<list<pair<K, V>>> table;
 public:
     HashTable();
     void insert(K key, V value);
-    V deleteNode(K key);
-    V at(K key);
+    V& deleteNode(K key);
+    V& at(K key);
     size_t hashFunction(const K& key);
     int sizeOf();
     bool isEmpty();
     void display();
 };
 
-template <typename S, typename T>
-HashTable<S, T>::HashTable(){
-    size = 0;
-    capacity = 10;
+template <typename K, typename V>
+HashTable<K, V>::HashTable(){
+    table.resize(capacity);
 }
 
 template <typename K, typename V>
 void HashTable<K, V>::insert(K key, V value){
-    HashTableNode<K,V>* temp = new HashTableNode<K,V>(key, value);
+    pair<K, V> temp(key, value);
     int hashKey = hashFunction(key);
+    if(hashKey < 0){
+        hashKey *= -1;
+    }
     hashKey %= capacity;
-    auto& row = table[hashKey];
-    bool keyPresent = false;
-    //finding empty spot in table to insert
+        list <pair<K, V>> &row = table[hashKey];
+        bool keyPresent = false;
+        //searching through list at current vector hashKey index
         for (auto itr = begin(row); itr != end(row); itr++) {
-            if (find(itr->value.begin(), itr->value.end(), value) == itr->value.end()) { //if the parameter value exists in the current list of values
+            if (itr->first == key) { //if the parameter value exists in the current list of values
                 keyPresent = true;
-                itr->value.push_back(value);
+                itr->second.insert(value.begin(), value.end());
                 break;
             }
         }
-    //checking for collisions
-    if(!keyPresent){
-        list<HashTableNode<K,V>>* temp2;
-        temp2->emplace_back(*temp);
-        table.push_back(*temp2); //????
-        size++;
-    }
+        //checking for collisions
+        if (!keyPresent) {
+            pair<K, V> newPair(temp);
+            table[hashKey].push_back(newPair);
+            size++;
+        }
 }
 
 template <typename K, typename V>
-V HashTable<K, V>::deleteNode(K key){
+V& HashTable<K, V>::deleteNode(K key){
     int hashKey = hashFunction(key);
     hashKey %= capacity;
     auto& row = table[hashKey];
     for(auto itr = row.begin(); itr != row.end(); itr++){
-        if(itr.key == key){
-            HashTableNode<K,V>* temp = *itr;
-            delete itr; //no clue if this works
-            return temp->value;
+        if(itr->first == key){
+            auto& temp = itr->second;
+            row.erase(itr); //no clue if this works
+            return temp;
         }
     }
 }
 
 template <typename K, typename V>
-V HashTable<K, V>::at(K key){
+V& HashTable<K, V>::at(K key){
     int hashKey = hashFunction(key);
+    if(hashKey < 0){
+        hashKey *= -1;
+    }
     hashKey %= capacity;
     auto& row = table[hashKey];
     bool keyPresent = false;
     //finding empty spot in table to insert
     for(auto itr = row.begin(); itr != row.end(); itr++){
-        if(itr->key == key){ //if the parameter value exists in the current list of values
-            return itr->value;
+        if(itr->first == key){ //if the parameter value exists in the current list of values
+            return itr->second;
         }
     }
-    return NULL;
 }
 
 template <typename K, typename V>
@@ -121,9 +116,16 @@ template <typename K, typename V>
 void HashTable<K, V>::display(){
     for(int r = 0; r < capacity; r++){
         if(!table[r].empty()){
-            for(int c = 0; c < table[r].size(); c++){
-                cout << "Key: " << table[r][c].key; //?????? bruh
-                cout << "\tValue: " << table[r][c].value << endl;
+            auto& row = table[r];
+            for(auto itr = row.begin(); itr != row.end(); itr++){
+                cout << "Key: " << itr->first << endl; //?????? bruh
+                //print out vector of elements from pairs second value
+                auto& pairValue = itr->second;
+                cout << "Value: ";
+                for (auto itr2 = pairValue.begin(); itr2 != pairValue.end(); itr2++){
+                    cout << *itr2 << " ";
+                }
+                cout << endl << endl;
             }
         }
     }
