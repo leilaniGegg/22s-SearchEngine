@@ -56,7 +56,7 @@ bool Article::operator==(const Article& temp)const{
 }
 
 ostream& operator<<(ostream& output, const Article& temp){
-    output << temp.title << "~" << temp.filename << "~" << temp.uuid << "~" << temp.date << "~";
+    output << temp.title << "~" << temp.filename << "~" << temp.uuid << "~" << temp.date << "\t";
     return output;
 }
 string& Article::getTitle(){

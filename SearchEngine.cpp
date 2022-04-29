@@ -48,8 +48,10 @@ void SearchEngine::printMenu(){
 }
 
 void SearchEngine::processCorpus(const string& directoryName){
-    docPars.readDirectory(directoryName, indexer);
-    indexer.writeWordIndexToFile();
+    //docPars.readDirectory(directoryName, indexer);
+    //indexer.writeWordIndexToFile();
+    //indexer.getWordIndex().deleteTree();
+    docPars.readPersistenceFile(indexer);
 }
 
 void SearchEngine::parseQuery(const string& request){

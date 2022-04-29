@@ -4,10 +4,16 @@
 
 #include "IndexHandler.h"
 
+//for when reading from the data set
 void IndexHandler::writeToWordIndex(const string& x, const Article& tempArticle){
     Word temp(x);
     temp.addArticle(tempArticle);
     wordIndex.insert(temp);
+}
+
+//for when reading from the persistence file
+void IndexHandler::writePFileToWordIndex(const Word& x){
+    wordIndex.insert(x);
 }
 
 void IndexHandler::writeToPersonIndex(const string& x, const Article& tempArticle){

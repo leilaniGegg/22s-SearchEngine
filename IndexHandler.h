@@ -25,6 +25,7 @@ private:
 
 public:
     void writeToWordIndex(const string& x, const Article& tempArticle);
+    void writePFileToWordIndex(const Word& x);
     void writeToPersonIndex(const string& x, const Article& tempArticle);
     void writeToOrgIndex(const string& x, const Article& tempArticle);
     AVLTree<Word>& getWordIndex();

@@ -26,21 +26,31 @@ int DocumentParser::getArticleCount(){
     return articleCount;
 }
 
-void readPersistenceFile(IndexHandler& indexer){
+void DocumentParser::readPersistenceFile(IndexHandler& indexer){
     //implement
     //basically use this --> indexer.writeToWordIndex(tempWord, tempArticle);
-    ifstream file("../persistence.txt");
+    ifstream file("../persistence_file.txt");
     if(!file.is_open()){
         cout << "Failed to open file" << endl;
     }
-    string temp;
-    getline(file, temp, ' ');
-    Word tempWord(temp); //create the word which will be added to AVL tree
-    while(getline(file, temp, '~')){
+    string line;
+    while(getline(file, line)){
+        stringstream inSS(line);
+        string temp;
+        getline(inSS, temp, ' ');
+        Word tempWord(temp);
 
+        while(getline(inSS, temp, '\t')){ //delimiter may change
+            vector<string> articleAttributes(4);
+            stringstream articleInput(temp);
+            for (int i = 0; i < 4; i++) {
+                getline(articleInput, articleAttributes.at(i), '~');
+            }
+            Article tempArticle(articleAttributes[0], articleAttributes[1], articleAttributes[2], articleAttributes[3]);
+            tempWord.addArticle(tempArticle);
+        }
+        indexer.writePFileToWordIndex(tempWord);
     }
-
-
 }
 
 void DocumentParser::readDirectory(const string& directory, IndexHandler& indexer){
