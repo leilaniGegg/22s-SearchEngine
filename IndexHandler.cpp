@@ -21,6 +21,26 @@ void IndexHandler::writeToOrgIndex(const string& x, const Article& tempArticle){
     temp.insert(tempArticle);
     orgIndex.insert(x, temp);
 }
+
+void IndexHandler::writeWordIndexToFile(){
+    ofstream file;
+    file.open("../persistence_file.txt");
+    if(!file.is_open()){
+        cout << "Failed to open file" << endl;
+    }
+    //file << wordIndex;
+    wordIndex.printBreadthFirstTraversal(file);
+    file.close();
+}
+
+void IndexHandler::writePersonIndexToFile(){
+
+}
+
+void IndexHandler::writeOrgIndexToFile(){
+
+}
+
 AVLTree<Word>& IndexHandler::getWordIndex(){
     return wordIndex;
 }

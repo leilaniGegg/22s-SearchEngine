@@ -28,6 +28,7 @@ public:
     bool operator==(const Word& temp)const;
     bool operator<(const Word& temp)const;
     Word& operator+(const Word& temp);
+    friend ostream& operator<<(ostream& output, Word& temp);
     vector<Article>& getArticles();
     void addArticle(const Article& article);
     void displayArticles();

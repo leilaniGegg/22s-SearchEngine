@@ -15,6 +15,7 @@ void QueryProcessor::findWord(const string& request, IndexHandler& indexer){
 
 void QueryProcessor::query(const string& request, IndexHandler& indexer){
     //Request looks like: "AND social network"
+    matches.clear(); // clear matches from the previous query
     string currOperator;  //could be AND, OR, NOT (default to OR??) not sure
     stringstream inSS(request);
     string tempWord;
@@ -169,6 +170,6 @@ void QueryProcessor::removeArticles(vector<string> words, IndexHandler& indexer)
 
 void QueryProcessor::printMatches(){
     for(auto itr = matches.begin(); itr != matches.end(); itr++){
-        cout << *itr << endl;
+        itr->displayTitle();
     }
 }

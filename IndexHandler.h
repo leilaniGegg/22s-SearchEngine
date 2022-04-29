@@ -10,6 +10,8 @@
 #include "Article.h"
 #include <vector>
 #include <set>
+#include <fstream>
+#include <ostream>
 #include <iostream>
 using namespace std;
 
@@ -28,5 +30,8 @@ public:
     AVLTree<Word>& getWordIndex();
     HashTable<string, set<Article>>& getPersonIndex();
     HashTable<string, set<Article>>& getOrgIndex();
+    void writeWordIndexToFile();
+    void writePersonIndexToFile();
+    void writeOrgIndexToFile();
 };
 #endif //INC_22S_FINAL_PROJ_INDEXHANDLER_H

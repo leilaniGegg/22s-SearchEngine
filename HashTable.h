@@ -22,6 +22,8 @@ private:
     vector<list<pair<K, V>>> table;
 public:
     HashTable();
+    ~HashTable();
+    void clearHashTable();
     void insert(const K& key, const V& value);
     V& deleteNode(const K& key);
     V& at(K key);
@@ -34,6 +36,24 @@ public:
 template <typename K, typename V>
 HashTable<K, V>::HashTable(){
     table.resize(capacity);
+}
+
+template <typename K, typename V>
+HashTable<K, V>::~HashTable(){
+    clearHashTable();
+}
+
+template <typename K, typename V>
+void HashTable<K, V>::clearHashTable(){
+    for(int r = 0; r < capacity; r++){
+        if(!table[r].empty()){
+            auto& row = table[r];
+            row.clear();
+        }
+    }
+    for(int r = 0; r < capacity; r++){
+        table[r].clear();
+    }
 }
 
 template <typename K, typename V>

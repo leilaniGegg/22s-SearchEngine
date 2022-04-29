@@ -5,6 +5,7 @@
 #ifndef INC_22S_FINAL_PROJ_AVLTREE_H
 #define INC_22S_FINAL_PROJ_AVLTREE_H
 #include <algorithm>
+#include <ostream>
 using namespace std;
 
 template <typename T>
@@ -33,11 +34,18 @@ public:
     //T& find(const T& x);
     bool contains(const T& x);
     void deleteTree();
+    ostream& printBreadthFirstTraversal(ostream& output);
+    ostream& printCurrLevel(ostream& output,AVLNode*& root1, int level);
     int height(AVLNode* t);
     void rotateWithLeftChild(AVLNode*& k2);
     void rotateWithRightChild(AVLNode*& k1);
     void doubleWithLeftChild(AVLNode*& k3);
     void doubleWithRightChild(AVLNode*& k3);
+    int getNodeCount();
+    friend ostream& operator<<(ostream& output, AVLTree<T>& temp){
+        output << temp.printBreadthFirstTraversal(output);
+        return output;
+    }
 };
 
 template <typename T>
@@ -58,6 +66,7 @@ T& AVLTree<T>::find(const T& x){
 template <typename T>
 void AVLTree<T>::deleteTree(){
     deleteTree(this->root);
+    nodeCount = 0;
 }
 
 template <typename T>
@@ -67,6 +76,29 @@ void AVLTree<T>::deleteTree(AVLNode*& t){
         deleteTree(t->right);
         delete t;
     }
+}
+
+template <typename T>
+ostream& AVLTree<T>::printBreadthFirstTraversal(ostream& output){
+    //loop through each level of the tree, print out each node at that level
+    for(int i = 1; i < height(this->root); i++){
+        printCurrLevel(output, this->root, i);
+    }
+    return output;
+}
+
+template <typename T>
+ostream& AVLTree<T>::printCurrLevel(ostream& output, AVLNode*& root1, int level){
+    if(root1 != nullptr){
+        if(level == 1){
+            output << root1->data << "AAAAAAAAAAAA"; //not sure if it should be ~
+        }
+        else{
+            printCurrLevel(output, root1->left, level-1);
+            printCurrLevel(output, root1->right, level-1);
+        }
+    }
+    return output;
 }
 
 template <typename T>
@@ -196,6 +228,11 @@ void AVLTree<T>::balance(AVLNode*& t){
         }
     }
     t->height = max(height(t->left), height(t->right)) + 1;
+}
+
+template <typename T>
+int AVLTree<T>::getNodeCount(){
+    return nodeCount;
 }
 
 #endif //INC_22S_FINAL_PROJ_AVLTREE_H

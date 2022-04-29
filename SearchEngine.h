@@ -7,6 +7,7 @@
 #include "DocumentParser.h"
 #include "IndexHandler.h"
 #include "QueryProcessor.h"
+#include <iostream>
 
 class SearchEngine{
 private:
@@ -14,6 +15,8 @@ private:
     IndexHandler indexer;
     QueryProcessor query;
 public:
+    SearchEngine();
+    void printMenu();
     void processCorpus(const string& directoryName);
     //for speed demo
     void parseQuery(const string& request);

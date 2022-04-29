@@ -5,6 +5,7 @@
 #ifndef INC_22S_FINAL_PROJ_ARTICLE_H
 #define INC_22S_FINAL_PROJ_ARTICLE_H
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -28,6 +29,7 @@ public:
     friend ostream& operator<<(ostream& output, const Article& temp);
     bool operator==(const Article& temp)const; //maybe delete const if it causes problems
     string& getTitle();
+    void displayTitle()const;
     string& getFileName();
     string& getUUID();
     string& getDate();

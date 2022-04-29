@@ -22,11 +22,33 @@ DocumentParser::DocumentParser(){
     generateStopWords();
 }
 
-void DocumentParser::open_dir_using_filesystem(const string& directory, IndexHandler& indexer){
+int DocumentParser::getArticleCount(){
+    return articleCount;
+}
+
+void readPersistenceFile(IndexHandler& indexer){
+    //implement
+    //basically use this --> indexer.writeToWordIndex(tempWord, tempArticle);
+    ifstream file("../persistence.txt");
+    if(!file.is_open()){
+        cout << "Failed to open file" << endl;
+    }
+    string temp;
+    getline(file, temp, ' ');
+    Word tempWord(temp); //create the word which will be added to AVL tree
+    while(getline(file, temp, '~')){
+
+    }
+
+
+}
+
+void DocumentParser::readDirectory(const string& directory, IndexHandler& indexer){
     for (const auto & entry : fs::recursive_directory_iterator(directory)){
         if (entry.is_regular_file()) {
             if (entry.path().extension().string() == ".json") {
                 readFile(entry.path().c_str(), indexer); //sending the filename and indexer
+                articleCount++;
             }
         }
     }

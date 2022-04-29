@@ -54,6 +54,14 @@ Word& Word::operator+(const Word& temp){
     return *this;
 }
 
+ostream& operator<<(ostream& output, Word& temp){
+    output << temp.getWord() << " ";
+    for (int i = 0; i < temp.getArticles().size(); i++) {
+        output << temp.getArticles().at(i);
+    }
+    return output;
+}
+
 bool Word::operator==(const Word& temp)const{
    if(this->word == temp.word){
        return true;
