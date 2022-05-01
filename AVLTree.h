@@ -66,6 +66,7 @@ T& AVLTree<T>::find(const T& x){
 template <typename T>
 void AVLTree<T>::deleteTree(){
     deleteTree(this->root);
+    root = nullptr;
     nodeCount = 0;
 }
 
@@ -91,7 +92,7 @@ template <typename T>
 ostream& AVLTree<T>::printCurrLevel(ostream& output, AVLNode*& root1, int level){
     if(root1 != nullptr){
         if(level == 1){
-            output << root1->data << "\\"; //not sure if it should be ~
+            output << root1->data << '\\'; //not sure if it should be ~
         }
         else{
             printCurrLevel(output, root1->left, level-1);

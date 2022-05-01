@@ -31,6 +31,7 @@ public:
     int sizeOf();
     bool isEmpty();
     void display();
+    void writeToFile(ostream& output);
 };
 
 template <typename K, typename V>
@@ -63,7 +64,6 @@ void HashTable<K, V>::insert(const K& key, const V& value){
     if(hashKey < 0){
         hashKey *= -1;
     }
-    hashKey %= capacity;
         list <pair<K, V>> &row = table[hashKey];
         bool keyPresent = false;
         //searching through list at current vector hashKey index
@@ -88,7 +88,6 @@ V& HashTable<K, V>::deleteNode(const K& key){
     if(hashKey < 0){
         hashKey *= -1;
     }
-    hashKey %= capacity;
     auto& row = table[hashKey];
     for(auto itr = row.begin(); itr != row.end(); itr++){
         if(itr->first == key){
@@ -105,7 +104,6 @@ V& HashTable<K, V>::at(K key){
     if(hashKey < 0){
         hashKey *= -1;
     }
-    hashKey %= capacity;
     auto& row = table[hashKey];
     bool keyPresent = false;
     //finding empty spot in table to insert
@@ -119,7 +117,7 @@ V& HashTable<K, V>::at(K key){
 template <typename K, typename V>
 size_t HashTable<K, V>::hashFunction(const K& key){
     hash<K> temp;
-    return temp(key);
+    return temp(key)% capacity;
 }
 
 template <typename K, typename V>
@@ -153,4 +151,26 @@ void HashTable<K, V>::display(){
         }
     }
 }
+
+template <typename K, typename V>
+void HashTable<K,V>::writeToFile(ostream& output){
+    for(auto itr1 = table.begin(); itr1 != table.end(); itr1++){
+        //itr2 is a list of pairs
+        if(!itr1->empty()){
+            auto& row = itr1;
+            for(auto itr2 = row->begin(); itr2 != row->end(); itr2++){
+                //itr2 is a pair
+                output << itr2->first << '|';
+                auto& listOfArticles = itr2->second;
+                for(auto itr3 = listOfArticles.begin(); itr3 != listOfArticles.end(); itr3++){
+                    //itr3 is an article from second part of pair
+                    output  << *itr3 << '^';
+                }
+                output << '?'; // delimiter to indicate end of the list of pairs per vector of the table
+            }
+            output << '\t'; //delimiter to separate each vector of the table
+        }
+    }
+}
+
 #endif //INC_22S_FINAL_PROJ_HASHTABLE_H

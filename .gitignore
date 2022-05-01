@@ -2,4 +2,4 @@ data/
 cmake-build-debug/
 cmake-build-release/
 .idea/
-/persistence_file.txt
+/word_persistence_file.txt

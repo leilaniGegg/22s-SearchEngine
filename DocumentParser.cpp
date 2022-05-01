@@ -27,19 +27,18 @@ int DocumentParser::getArticleCount(){
 }
 
 void DocumentParser::readPersistenceFile(IndexHandler& indexer){
-    //implement
-    //basically use this --> indexer.writeToWordIndex(tempWord, tempArticle);
+    articleCount = 0;
     ifstream file("../persistence_file.txt");
     if(!file.is_open()){
         cout << "Failed to open file" << endl;
     }
     string line;
-    while(getline(file, line)){
+    while(getline(file, line, '\\')){
+        articleCount++;
         stringstream inSS(line);
         string temp;
         getline(inSS, temp, ' ');
         Word tempWord(temp);
-
         while(getline(inSS, temp, '\t')){ //delimiter may change
             vector<string> articleAttributes(4);
             stringstream articleInput(temp);
@@ -54,6 +53,7 @@ void DocumentParser::readPersistenceFile(IndexHandler& indexer){
 }
 
 void DocumentParser::readDirectory(const string& directory, IndexHandler& indexer){
+    articleCount = 0;
     for (const auto & entry : fs::recursive_directory_iterator(directory)){
         if (entry.is_regular_file()) {
             if (entry.path().extension().string() == ".json") {

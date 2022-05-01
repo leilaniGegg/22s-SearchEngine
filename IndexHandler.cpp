@@ -30,21 +30,32 @@ void IndexHandler::writeToOrgIndex(const string& x, const Article& tempArticle){
 
 void IndexHandler::writeWordIndexToFile(){
     ofstream file;
-    file.open("../persistence_file.txt");
+    file.open("../word_persistence_file.txt");
     if(!file.is_open()){
         cout << "Failed to open file" << endl;
     }
-    //file << wordIndex;
     wordIndex.printBreadthFirstTraversal(file);
     file.close();
 }
 
 void IndexHandler::writePersonIndexToFile(){
-
+    ofstream file;
+    file.open("../person_persistence_file.txt");
+    if(!file.is_open()){
+        cout << "Failed to open file" << endl;
+    }
+    personIndex.writeToFile(file);
+    file.close();
 }
 
 void IndexHandler::writeOrgIndexToFile(){
-
+    ofstream file;
+    file.open("../org_persistence_file.txt");
+    if(!file.is_open()){
+        cout << "Failed to open file" << endl;
+    }
+    orgIndex.writeToFile(file);
+    file.close();
 }
 
 AVLTree<Word>& IndexHandler::getWordIndex(){

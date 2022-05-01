@@ -26,5 +26,6 @@ public:
     void addOrgArticles(const string& person, IndexHandler& indexer);
     void removeArticles(vector<string> words, IndexHandler& indexer);
     void printMatches();
+    int getSize();
 };
 #endif //INC_22S_FINAL_PROJ_QUERYPROCESSOR_H

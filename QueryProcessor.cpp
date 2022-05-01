@@ -173,3 +173,7 @@ void QueryProcessor::printMatches(){
         itr->displayTitle();
     }
 }
+
+int QueryProcessor::getSize(){
+    return matches.size();
+}
