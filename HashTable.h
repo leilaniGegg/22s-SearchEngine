@@ -34,6 +34,7 @@ public:
     bool isEmpty();
     void display();
     void writeToFile(ostream& output);
+    void writeToTextFile(ostream& output);
 };
 
 template <typename K, typename V>
@@ -179,6 +180,20 @@ void HashTable<K,V>::writeToFile(ostream& output){
                 output << '?'; // delimiter to indicate end of the list of pairs per vector of the table
             }
             output << '\\'; //delimiter to separate each vector of the table
+        }
+    }
+}
+
+template <typename K, typename V>
+void HashTable<K, V>::writeToTextFile(ostream& output){
+    for(auto itr1 = table.begin(); itr1 != table.end(); itr1++){
+        if(!itr1->empty()){
+            auto& row = itr1;
+            for(auto itr2 = row->begin(); itr2 != row->end(); itr2++){
+                output << itr2->first << '|';
+                auto& text = itr2->second;
+                output << *text.begin() << '\t';
+            }
         }
     }
 }

@@ -26,6 +26,7 @@ SearchEngine::SearchEngine(){
                 docPars.readWordPersistenceFile(indexer);
                 docPars.readPersonPersistenceFile(indexer);
                 docPars.readOrgPersistenceFile(indexer);
+                docPars.readArticleTextPersistenceFile(indexer);
                 cout << "Persistence Files read" << endl;
                 break;
             }
@@ -34,6 +35,7 @@ SearchEngine::SearchEngine(){
                 indexer.writeWordIndexToFile();
                 indexer.writePersonIndexToFile();
                 indexer.writeOrgIndexToFile();
+                indexer.writeArticleTextToFile();
                 break;
             }
             case 4: {

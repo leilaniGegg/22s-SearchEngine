@@ -27,6 +27,7 @@ public:
     void readWordPersistenceFile(IndexHandler& indexer);
     void readPersonPersistenceFile(IndexHandler& indexer);
     void readOrgPersistenceFile(IndexHandler& indexer);
+    void readArticleTextPersistenceFile(IndexHandler& indexer);
     void readFile(const string& filename, IndexHandler& indexer);
     void indexArticleWords(const Article& tempArticle, const string& articleText, IndexHandler& indexer);
     //void indexArticlePeople(const Article& tempArticle, const string& articleText, IndexHandler& indexer);

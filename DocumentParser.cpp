@@ -105,6 +105,22 @@ void DocumentParser::readOrgPersistenceFile(IndexHandler& indexer){
     }
     file.close();
 }
+
+void DocumentParser::readArticleTextPersistenceFile(IndexHandler& indexer){
+    ifstream file("../articletext_persistence_file.txt");
+    if(!file.is_open()){
+        cout << "Failed to open file" << endl;
+    }
+    string uuid, text;
+    while(getline(file, uuid, '|')) {
+        getline(file, text, '\t');
+        indexer.writeArticleTextToIndex(uuid, text);
+    }
+
+    file.close();
+
+}
+
 void DocumentParser::readDirectory(const string& directory, IndexHandler& indexer){
     articleCount = 0;
     for (const auto & entry : fs::recursive_directory_iterator(directory)){

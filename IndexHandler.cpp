@@ -58,6 +58,16 @@ void IndexHandler::writeOrgIndexToFile(){
     file.close();
 }
 
+void IndexHandler::writeArticleTextToFile(){
+    ofstream file;
+    file.open("../articletext_persistence_file.txt");
+    if(!file.is_open()){
+        cout << "Failed to open file" << endl;
+    }
+    articleText.writeToTextFile(file);
+    file.close();
+}
+
 void IndexHandler::writeArticleTextToIndex(const string& uuid, const string& text){
     set<string> temp;
     temp.insert(text);

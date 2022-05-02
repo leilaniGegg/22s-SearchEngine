@@ -29,6 +29,7 @@ public:
     void writePFileToWordIndex(const Word& x);
     void writeToPersonIndex(const string& x, const Article& tempArticle);
     void writeToOrgIndex(const string& x, const Article& tempArticle);
+    void writeArticleTextToIndex(const string& uuid, const string& text);
     AVLTree<Word>& getWordIndex();
     HashTable<string, set<Article>>& getPersonIndex();
     HashTable<string, set<Article>>& getOrgIndex();
@@ -36,6 +37,7 @@ public:
     void writeWordIndexToFile();
     void writePersonIndexToFile();
     void writeOrgIndexToFile();
-    void writeArticleTextToIndex(const string& uuid, const string& text);
+    void writeArticleTextToFile();
+
 };
 #endif //INC_22S_FINAL_PROJ_INDEXHANDLER_H
