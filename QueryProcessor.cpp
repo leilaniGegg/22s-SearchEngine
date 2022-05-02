@@ -22,21 +22,21 @@ void QueryProcessor::query(const string& request, IndexHandler& indexer){
     while(getline(inSS, tempWord, ' ')){
         Porter2Stemmer::trim(tempWord);
         Porter2Stemmer::stem(tempWord);
-        if(tempWord == "AND"){
+        if(tempWord == "and"){
             if(currOperator != tempWord && currOperator != ""){
                 addArticles(currOperator, tempList, indexer);
             }
             currOperator = tempWord;
             tempList.clear();
         }
-        else if(tempWord == "OR"){
+        else if(tempWord == "or"){
             if(currOperator != tempWord && currOperator != ""){
                 addArticles(currOperator, tempList, indexer);
             }
             currOperator = tempWord;
             tempList.clear();
         }
-        else if(tempWord == "NOT"){
+        else if(tempWord == "not"){
             if(currOperator != tempWord){
                 //removeArticles(tempList, indexer);
                 //the only operator between
@@ -53,13 +53,13 @@ void QueryProcessor::query(const string& request, IndexHandler& indexer){
             currOperator = tempWord;
             tempList.clear();
         }
-        else if(tempWord == "PERSON"){
+        else if(tempWord == "person"){
                //only have one word after, no need to add to templist
                cout << "here" << endl;
                 getline(inSS, tempWord, ' ');
                 addPersonArticles(tempWord, indexer);
         }
-        else if(tempWord == "ORG"){
+        else if(tempWord == "org"){
             //only have one word after, no need to add to templist
             getline(inSS, tempWord, ' ');
             addOrgArticles(tempWord, indexer);
@@ -72,16 +72,16 @@ void QueryProcessor::query(const string& request, IndexHandler& indexer){
     if(currOperator == ""){
         addArticle(tempList.at(0), indexer);
     }
-    else if(currOperator == "AND" || currOperator == "OR") {
+    else if(currOperator == "and" || currOperator == "or") {
         addArticles(currOperator, tempList, indexer); //will need to add checks for if its AND or OR or NOT, etc
     }
-    else if(currOperator == "NOT"){
+    else if(currOperator == "not"){
         removeArticles(tempList, indexer);
     }
 }
 
 void QueryProcessor::addArticles(const string& op, vector<string>& words, IndexHandler& indexer){
-    if(op == "AND") {
+    if(op == "and") {
         // add all the articles from the first word to the matches
         vector<Article>* firstWord = &(indexer.getWordIndex().insert(Word(words.at(0)))->getArticles());
         for(int i = 0; i < firstWord->size(); i++){
@@ -103,7 +103,7 @@ void QueryProcessor::addArticles(const string& op, vector<string>& words, IndexH
             }
         }
     }
-    else if(op == "OR"){
+    else if(op == "or"){
         // add all the articles from the first word to the matches
         vector<Article>* firstWord = &(indexer.getWordIndex().insert(Word(words.at(0)))->getArticles());
         for(int i = 0; i < firstWord->size(); i++){
@@ -185,7 +185,7 @@ void QueryProcessor::printMatches(){
         for(int count = 1; itr != matches.end();count++, itr++){
             cout << "Article " << count << " Title: ";
             itr->displayTitle();
-            cout << " \tDate Published: ";
+            cout <<  "\nDate Published: ";
             itr->displayDate();
             cout << endl;
         }
