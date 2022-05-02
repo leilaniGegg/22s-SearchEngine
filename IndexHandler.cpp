@@ -58,6 +58,12 @@ void IndexHandler::writeOrgIndexToFile(){
     file.close();
 }
 
+void IndexHandler::writeArticleTextToIndex(const string& uuid, const string& text){
+    set<string> temp;
+    temp.insert(text);
+    articleText.insert(uuid, temp);
+}
+
 AVLTree<Word>& IndexHandler::getWordIndex(){
     return wordIndex;
 }
@@ -68,4 +74,8 @@ HashTable<string, set<Article>>& IndexHandler::getPersonIndex(){
 
 HashTable<string, set<Article>>& IndexHandler::getOrgIndex(){
     return orgIndex;
+}
+
+HashTable<string, set<string>>& IndexHandler::getArticleText(){
+    return articleText;
 }

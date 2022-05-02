@@ -9,6 +9,8 @@
 #include <functional>
 #include <iostream>
 #include <cmath>
+#include <typeinfo>
+#include <set>
 #include "Article.h"
 
 using namespace std;
@@ -71,7 +73,14 @@ void HashTable<K, V>::insert(const K& key, const V& value){
         for (auto itr = begin(row); itr != end(row); itr++) {
             if (itr->first == key) { //if the parameter value exists in the current list of values
                 keyPresent = true;
-                itr->second.insert(value.begin(), value.end());
+                //auto& x = itr->second;
+                //this first if is for the articleText hashmap
+                if(typeid(itr->second) == typeid(std::string)){
+                    itr->second = value;
+                }
+                else {
+                    itr->second.insert(value.begin(), value.end());
+                }
                 break;
             }
         }

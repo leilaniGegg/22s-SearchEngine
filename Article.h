@@ -6,6 +6,8 @@
 #define INC_22S_FINAL_PROJ_ARTICLE_H
 #include <string>
 #include <iostream>
+#include <set>
+#include "HashTable.h"
 
 using namespace std;
 
@@ -14,7 +16,6 @@ private:
     string title;
     string filename;
     string uuid;
-    //string author;
     string date;
     //string text; don't need rn?
 
@@ -30,9 +31,11 @@ public:
     bool operator==(const Article& temp)const; //maybe delete const if it causes problems
     string& getTitle();
     void displayTitle()const;
+    void displayDate()const;
     string& getFileName();
     string& getUUID();
     string& getDate();
+    void printArticleText(HashTable<string, set<string>>& table)const;
 
 
 };

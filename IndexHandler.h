@@ -22,6 +22,7 @@ private:
     HashTable<string, set<Article>> personIndex;
     //AVLTree<Word> orgIndex;
     HashTable<string, set<Article>> orgIndex;
+    HashTable<string, set<string>> articleText;
 
 public:
     void writeToWordIndex(const string& x, const Article& tempArticle);
@@ -31,8 +32,10 @@ public:
     AVLTree<Word>& getWordIndex();
     HashTable<string, set<Article>>& getPersonIndex();
     HashTable<string, set<Article>>& getOrgIndex();
+    HashTable<string, set<string>>& getArticleText();
     void writeWordIndexToFile();
     void writePersonIndexToFile();
     void writeOrgIndexToFile();
+    void writeArticleTextToIndex(const string& uuid, const string& text);
 };
 #endif //INC_22S_FINAL_PROJ_INDEXHANDLER_H

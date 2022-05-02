@@ -42,7 +42,7 @@ Article& Article::operator=(const Article& temp){
 }
 
 bool Article::operator<(const Article& temp)const{
-    if(this->uuid < temp.uuid){
+    if(this->date < temp.date){
         return true;
     }
     return false;
@@ -63,8 +63,13 @@ string& Article::getTitle(){
     return title;
 }
 void Article::displayTitle()const{
-    cout << title << endl;
+    cout << title;
 }
+
+void Article::displayDate()const{
+    cout << date;
+}
+
 string& Article::getFileName(){
     return filename;
 }
@@ -73,4 +78,9 @@ string& Article::getUUID(){
 }
 string& Article::getDate(){
     return date;
+}
+
+void Article::printArticleText(HashTable<string, set<string>>& table)const{
+    cout << "[" << title << "]" << endl;
+    cout << *table.at(this->uuid).begin() << endl;
 }

@@ -49,6 +49,7 @@ SearchEngine::SearchEngine(){
                 //clear the index
                 indexer.getWordIndex().deleteTree();
                 indexer.getPersonIndex().clearHashTable();
+                indexer.getOrgIndex().clearHashTable();
                 break;
             }
             case 6: {
@@ -97,4 +98,24 @@ void SearchEngine::parseQuery(const string& request){
     end = std::chrono::high_resolution_clock::now();
     cout << query.getSize() << " articles in " << std::chrono::duration<double>(end-start).count()
          << " seconds." << endl;
+
+    string tempChoice;
+    int choice;
+    bool done = false;
+    while(!done) {
+        cout << "Enter a number corresponding to a article to see the text (-1 to quit): ";
+        getline(cin, tempChoice);
+        choice = stoi(tempChoice);
+        if(choice == -1){
+            done = true;
+        }
+        else {
+            int count = 1;
+            for (auto itr = query.getMatches().begin(); itr != query.getMatches().end(); itr++, count++) {
+                if (count == choice) {
+                    itr->printArticleText(indexer.getArticleText());
+                }
+            }
+        }
+    }
 }

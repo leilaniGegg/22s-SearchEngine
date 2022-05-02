@@ -171,9 +171,29 @@ void QueryProcessor::removeArticles(vector<string> words, IndexHandler& indexer)
 }
 
 void QueryProcessor::printMatches(){
-    for(auto itr = matches.begin(); itr != matches.end(); itr++){
-        itr->displayTitle();
+    auto itr = matches.begin();
+    if(getSize() >= 15) {
+        for (int i = 0; i < 15; i++, itr++) {
+            cout << "Article " << i + 1 << " Title: ";
+            itr->displayTitle();
+            cout << "\n\tDate Published: ";
+            itr->displayDate();
+            cout << endl;
+        }
     }
+    else{
+        for(int count = 1; itr != matches.end();count++, itr++){
+            cout << "Article " << count << " Title: ";
+            itr->displayTitle();
+            cout << " \tDate Published: ";
+            itr->displayDate();
+            cout << endl;
+        }
+    }
+}
+
+set<Article>& QueryProcessor::getMatches(){
+    return matches;
 }
 
 int QueryProcessor::getSize(){

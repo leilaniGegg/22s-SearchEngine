@@ -145,6 +145,7 @@ void DocumentParser::readFile(const std::string& filename, IndexHandler& indexer
         indexer.writeToOrgIndex(tempName, temp);
     }
     indexArticleWords(temp, doc["text"].GetString(), indexer);
+    indexer.writeArticleTextToIndex(doc["uuid"].GetString(), doc["text"].GetString());
 
 }
 

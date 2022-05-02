@@ -27,5 +27,6 @@ public:
     void removeArticles(vector<string> words, IndexHandler& indexer);
     void printMatches();
     int getSize();
+    set<Article>& getMatches();
 };
 #endif //INC_22S_FINAL_PROJ_QUERYPROCESSOR_H
