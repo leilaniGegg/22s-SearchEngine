@@ -24,10 +24,12 @@ public:
     DocumentParser();
     void generateStopWords();
     void readDirectory(const string& directory, IndexHandler& indexer);
-    void readPersistenceFile(IndexHandler& indexer);
+    void readWordPersistenceFile(IndexHandler& indexer);
+    void readPersonPersistenceFile(IndexHandler& indexer);
+    void readOrgPersistenceFile(IndexHandler& indexer);
     void readFile(const string& filename, IndexHandler& indexer);
     void indexArticleWords(const Article& tempArticle, const string& articleText, IndexHandler& indexer);
-    void indexArticlePeople(const Article& tempArticle, const string& articleText, IndexHandler& indexer);
+    //void indexArticlePeople(const Article& tempArticle, const string& articleText, IndexHandler& indexer);
     bool isStopWord(const string& word);
     int getArticleCount();
 };

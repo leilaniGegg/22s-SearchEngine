@@ -55,6 +55,7 @@ void HashTable<K, V>::clearHashTable(){
     for(int r = 0; r < capacity; r++){
         table[r].clear();
     }
+    size = 0;
 }
 
 template <typename K, typename V>
@@ -164,11 +165,11 @@ void HashTable<K,V>::writeToFile(ostream& output){
                 auto& listOfArticles = itr2->second;
                 for(auto itr3 = listOfArticles.begin(); itr3 != listOfArticles.end(); itr3++){
                     //itr3 is an article from second part of pair
-                    output  << *itr3 << '^';
+                    output  << *itr3;
                 }
                 output << '?'; // delimiter to indicate end of the list of pairs per vector of the table
             }
-            output << '\t'; //delimiter to separate each vector of the table
+            output << '\\'; //delimiter to separate each vector of the table
         }
     }
 }

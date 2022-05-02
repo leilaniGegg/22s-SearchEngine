@@ -14,13 +14,14 @@ void QueryProcessor::findWord(const string& request, IndexHandler& indexer){
 }
 
 void QueryProcessor::query(const string& request, IndexHandler& indexer){
-    //Request looks like: "AND social network"
     matches.clear(); // clear matches from the previous query
-    string currOperator;  //could be AND, OR, NOT (default to OR??) not sure
+    string currOperator;  //could be AND, OR, NOT
     stringstream inSS(request);
     string tempWord;
     vector<string> tempList;
     while(getline(inSS, tempWord, ' ')){
+        Porter2Stemmer::trim(tempWord);
+        Porter2Stemmer::stem(tempWord);
         if(tempWord == "AND"){
             if(currOperator != tempWord && currOperator != ""){
                 addArticles(currOperator, tempList, indexer);
@@ -67,6 +68,7 @@ void QueryProcessor::query(const string& request, IndexHandler& indexer){
             tempList.push_back(tempWord);
         }
     }
+    //these are for when there is no ORG or PERSON
     if(currOperator == ""){
         addArticle(tempList.at(0), indexer);
     }

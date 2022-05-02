@@ -26,15 +26,13 @@ int DocumentParser::getArticleCount(){
     return articleCount;
 }
 
-void DocumentParser::readPersistenceFile(IndexHandler& indexer){
-    articleCount = 0;
-    ifstream file("../persistence_file.txt");
+void DocumentParser::readWordPersistenceFile(IndexHandler& indexer){
+    ifstream file("../word_persistence_file.txt");
     if(!file.is_open()){
         cout << "Failed to open file" << endl;
     }
     string line;
     while(getline(file, line, '\\')){
-        articleCount++;
         stringstream inSS(line);
         string temp;
         getline(inSS, temp, ' ');
@@ -52,6 +50,61 @@ void DocumentParser::readPersistenceFile(IndexHandler& indexer){
     }
 }
 
+void DocumentParser::readPersonPersistenceFile(IndexHandler& indexer){
+    ifstream file("../person_persistence_file.txt");
+    if(!file.is_open()){
+        cout << "Failed to open file" << endl;
+    }
+    string line;
+    while(getline(file, line, '\\')){
+        //line is currently all the info needed for one list at index i of the vector
+        stringstream inSS(line); // line: pair<string, set<string>> ? pair<string, set<string>>?...
+        string name;
+        getline(inSS, name, '|');
+        string setOfArticles;
+        getline(inSS, setOfArticles, '?');
+        stringstream articleSet(setOfArticles);
+        string article;
+        while(getline(articleSet, article , '\t')){
+            vector<string> articleAttributes(4);
+            stringstream articleInput(article);
+            for (int i = 0; i < 4; i++) {
+                getline(articleInput, articleAttributes.at(i), '~');
+            }
+            Article tempArticle(articleAttributes[0], articleAttributes[1], articleAttributes[2], articleAttributes[3]);
+            indexer.writeToPersonIndex(name, tempArticle);
+        }
+    }
+    file.close();
+}
+
+void DocumentParser::readOrgPersistenceFile(IndexHandler& indexer){
+    ifstream file("../org_persistence_file.txt");
+    if(!file.is_open()){
+        cout << "Failed to open file" << endl;
+    }
+    string line;
+    while(getline(file, line, '\\')){
+        //line is currently all the info needed for one list at index i of the vector
+        stringstream inSS(line); // line: pair<string, set<string>> ? pair<string, set<string>>?...
+        string name;
+        getline(inSS, name, '|');
+        string setOfArticles;
+        getline(inSS, setOfArticles, '?');
+        stringstream articleSet(setOfArticles);
+        string article;
+        while(getline(articleSet, article , '\t')){
+            vector<string> articleAttributes(4);
+            stringstream articleInput(article);
+            for (int i = 0; i < 4; i++) {
+                getline(articleInput, articleAttributes.at(i), '~');
+            }
+            Article tempArticle(articleAttributes[0], articleAttributes[1], articleAttributes[2], articleAttributes[3]);
+            indexer.writeToOrgIndex(name, tempArticle);
+        }
+    }
+    file.close();
+}
 void DocumentParser::readDirectory(const string& directory, IndexHandler& indexer){
     articleCount = 0;
     for (const auto & entry : fs::recursive_directory_iterator(directory)){
@@ -80,10 +133,16 @@ void DocumentParser::readFile(const std::string& filename, IndexHandler& indexer
     Article temp(doc["title"].GetString(), filename, doc["uuid"].GetString(), doc["published"].GetString());
 
     for (auto &x : doc["entities"]["persons"].GetArray()) {
-        indexer.writeToPersonIndex(x["name"].GetString(), temp);
+        string tempName = x["name"].GetString();
+        Porter2Stemmer::trim(tempName);
+        Porter2Stemmer::stem(tempName);
+        indexer.writeToPersonIndex(tempName, temp);
     }
     for (auto &x : doc["entities"]["organizations"].GetArray()) {
-        indexer.writeToOrgIndex(x["name"].GetString(), temp);
+        string tempName = x["name"].GetString();
+        Porter2Stemmer::trim(tempName);
+        Porter2Stemmer::stem(tempName);
+        indexer.writeToOrgIndex(tempName, temp);
     }
     indexArticleWords(temp, doc["text"].GetString(), indexer);
 

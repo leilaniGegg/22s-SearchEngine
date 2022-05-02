@@ -5,29 +5,38 @@
 #include "SearchEngine.h"
 
 SearchEngine::SearchEngine(){
-    printMenu();
     bool done = false;
     int choice;
     while(!done){
         //loop through, user can enter # to do different things, quits when they enter 5
+        printMenu();
         string tempChoice;
         cout << "Enter Number: ";
         getline(cin, tempChoice); // is it bad to use cin?
         choice = stoi(tempChoice);
         switch(choice){
-            case 1:
+            case 1: {
                 //menu 1 option
                 docPars.readDirectory("../testdata", indexer);
+                cout << "Data set parsed" << endl;
+                break;
+            }
+            case 2: {
+                //menu 2 option
+                docPars.readWordPersistenceFile(indexer);
+                docPars.readPersonPersistenceFile(indexer);
+                docPars.readOrgPersistenceFile(indexer);
+                cout << "Persistence Files read" << endl;
+                break;
+            }
+            case 3: {
+                //menu 3 option
                 indexer.writeWordIndexToFile();
                 indexer.writePersonIndexToFile();
                 indexer.writeOrgIndexToFile();
                 break;
-            case 2:
-                //menu 2 option
-                docPars.readPersistenceFile(indexer);
-                cout << "Persistence File read" << endl;
-                break;
-            case 3: {
+            }
+            case 4: {
                 //menu 3 option
                 string temp;
                 cout << "Enter a query: ";
@@ -35,13 +44,21 @@ SearchEngine::SearchEngine(){
                 parseQuery(temp);
                 break;
             }
-            case 4:
+            case 5: {
                 //menu 4 option
+                //clear the index
                 indexer.getWordIndex().deleteTree();
+                indexer.getPersonIndex().clearHashTable();
                 break;
-            case 5:
-                //stats
+            }
             case 6: {
+                //menu 6 option
+                //stats
+                cout << "***" << docPars.getArticleCount() << " articles indexed" << "***" << endl;
+                cout << "***" << indexer.getWordIndex().getNodeCount() << " words" << "***" << endl;
+                break;
+            }
+            case 7: {
                 //QUIT
                 cout << "Done with Search Engine" << endl;
                 done = true;
@@ -50,7 +67,6 @@ SearchEngine::SearchEngine(){
             default:
                 cout << "Incorrect Entry. Try Again. " << endl;
         }
-        printMenu();
     }
 }
 
@@ -58,22 +74,24 @@ void SearchEngine::printMenu(){
     cout << "Select a number from the following menu:" << endl;
     cout << "\t1. Read from documents" << endl;
     cout << "\t2. Read from persistence file" << endl;
-    cout << "\t3. Enter a query" << endl;
-    cout << "\t4. Clear the index" << endl;
-    cout << "\t5. Display Statistics" << endl;
-    cout << "\t6. Quit" << endl << endl;
+    cout << "\t3. Write to persistence file" << endl;
+    cout << "\t4. Enter a query" << endl;
+    cout << "\t5. Clear the index" << endl;
+    cout << "\t6. Display Statistics" << endl;
+    cout << "\t7. Quit" << endl << endl;
 }
 
 void SearchEngine::processCorpus(const string& directoryName){
     /*docPars.readDirectory(directoryName, indexer);
     indexer.writeWordIndexToFile();
     indexer.getWordIndex().deleteTree();
-    docPars.readPersistenceFile(indexer);*/
+    docPars.readWordPersistenceFile(indexer);*/
 }
 
 void SearchEngine::parseQuery(const string& request){
     // call function from QueryProcessor and send the request and indexer
     start = std::chrono::high_resolution_clock::now();
+
     query.query(request, indexer);
     query.printMatches();
     end = std::chrono::high_resolution_clock::now();
