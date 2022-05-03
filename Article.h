@@ -17,7 +17,6 @@ private:
     string filename;
     string uuid;
     string date;
-    //string text; don't need rn?
 
 public:
     Article();

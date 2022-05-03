@@ -93,7 +93,7 @@ template <typename T>
 ostream& AVLTree<T>::printCurrLevel(ostream& output, AVLNode*& root1, int level){
     if(root1 != nullptr){
         if(level == 1){
-            output << root1->data << '\\'; //not sure if it should be ~
+            output << root1->data << '\\';
         }
         else{
             printCurrLevel(output, root1->left, level-1);
@@ -147,7 +147,6 @@ T* AVLTree<T>::insert(const T& x, AVLNode*& t){
     if(t == nullptr){
         t = new AVLNode(x, nullptr, nullptr);
         nodeCount++;
-        //balance(t);
         return &(t->data);
     }
     else if(x < t->data){
@@ -160,11 +159,9 @@ T* AVLTree<T>::insert(const T& x, AVLNode*& t){
     }
     else if(x == t->data){
         //duplicates
-        //balance(t);
         t->data = t->data + x;
         return &(t->data);
     }
-    //balance(t);
 }
 
 /*template <typename T>

@@ -19,7 +19,6 @@ private:
 public:
     SearchEngine();
     void printMenu();
-    //for speed demo
     void parseQuery(const string& request);
 
 };

@@ -8,7 +8,7 @@ SearchEngine::SearchEngine(){
     bool done = false;
     int choice;
     while(!done){
-        //loop through, user can enter # to do different things, quits when they enter 5
+        //loop through, user can enter # to do different things, quits when they enter 7
         printMenu();
         string tempChoice;
         cout << "Enter Number: ";
@@ -17,7 +17,8 @@ SearchEngine::SearchEngine(){
         switch(choice){
             case 1: {
                 //menu 1 option
-                docPars.readDirectory("../testdata", indexer);
+                //for 6000 data set it would be ../testdata
+                docPars.readDirectory("../data/2018_01_112b52537b67659ad3609a234388c50a", indexer);
                 cout << "Data set parsed" << endl;
                 break;
             }
@@ -92,7 +93,6 @@ void SearchEngine::printMenu(){
 void SearchEngine::parseQuery(const string& request){
     // call function from QueryProcessor and send the request and indexer
     start = std::chrono::high_resolution_clock::now();
-
     query.query(request, indexer);
     query.printMatches();
     end = std::chrono::high_resolution_clock::now();
