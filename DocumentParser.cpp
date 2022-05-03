@@ -107,6 +107,7 @@ void DocumentParser::readOrgPersistenceFile(IndexHandler& indexer){
 }
 
 void DocumentParser::readArticleTextPersistenceFile(IndexHandler& indexer){
+    articleCount = 0;
     ifstream file("../articletext_persistence_file.txt");
     if(!file.is_open()){
         cout << "Failed to open file" << endl;
@@ -115,6 +116,7 @@ void DocumentParser::readArticleTextPersistenceFile(IndexHandler& indexer){
     while(getline(file, uuid, '|')) {
         getline(file, text, '\t');
         indexer.writeArticleTextToIndex(uuid, text);
+        articleCount++;
     }
 
     file.close();
@@ -133,12 +135,13 @@ void DocumentParser::readDirectory(const string& directory, IndexHandler& indexe
     }
 }
 
+//for creating word index
 void DocumentParser::readFile(const std::string& filename, IndexHandler& indexer){
     rapidjson::Document doc;
     ifstream file(filename);
-    /*if(!file.is_open()){
-        cout << "failed to open" << endl;
-    }*/
+    if(!file.is_open()){
+        cout << "Failed to open " << filename << endl;
+    }
     std::string fullfile;
     std::string line;
     while(getline(file, line)){
@@ -162,7 +165,6 @@ void DocumentParser::readFile(const std::string& filename, IndexHandler& indexer
     }
     indexArticleWords(temp, doc["text"].GetString(), indexer);
     indexer.writeArticleTextToIndex(doc["uuid"].GetString(), doc["text"].GetString());
-
 }
 
 bool DocumentParser::isStopWord(const string& word){

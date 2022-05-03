@@ -1,7 +1,8 @@
 //
 // Created by leila on 4/11/2022.
 //
-
+// Resources: https://www.geeksforgeeks.org/level-order-tree-traversal/ (helped with breadth first traversal)
+//
 #ifndef INC_22S_FINAL_PROJ_AVLTREE_H
 #define INC_22S_FINAL_PROJ_AVLTREE_H
 #include <algorithm>

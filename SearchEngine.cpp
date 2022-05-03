@@ -36,6 +36,7 @@ SearchEngine::SearchEngine(){
                 indexer.writePersonIndexToFile();
                 indexer.writeOrgIndexToFile();
                 indexer.writeArticleTextToFile();
+                cout << "Indexes written to file" << endl;
                 break;
             }
             case 4: {
@@ -57,13 +58,16 @@ SearchEngine::SearchEngine(){
             case 6: {
                 //menu 6 option
                 //stats
-                cout << "***" << docPars.getArticleCount() << " articles indexed" << "***" << endl;
-                cout << "***" << indexer.getWordIndex().getNodeCount() << " words" << "***" << endl;
+                cout << "**" << docPars.getArticleCount() << " articles indexed" << endl;
+                cout << "**" << indexer.getWordIndex().getNodeCount() << " words" << endl;
+                cout << "**" << indexer.getPersonIndex().sizeOf() << " people" << endl;
+                cout << "**" << indexer.getOrgIndex().sizeOf() << " organizations" << endl;
                 break;
             }
             case 7: {
                 //QUIT
                 cout << "Done with Search Engine" << endl;
+                cout << "Bye Bye! :)" << endl;
                 done = true;
                 break;
             }
@@ -84,12 +88,6 @@ void SearchEngine::printMenu(){
     cout << "\t7. Quit" << endl << endl;
 }
 
-void SearchEngine::processCorpus(const string& directoryName){
-    /*docPars.readDirectory(directoryName, indexer);
-    indexer.writeWordIndexToFile();
-    indexer.getWordIndex().deleteTree();
-    docPars.readWordPersistenceFile(indexer);*/
-}
 
 void SearchEngine::parseQuery(const string& request){
     // call function from QueryProcessor and send the request and indexer
@@ -98,14 +96,14 @@ void SearchEngine::parseQuery(const string& request){
     query.query(request, indexer);
     query.printMatches();
     end = std::chrono::high_resolution_clock::now();
-    cout << query.getSize() << " articles in " << std::chrono::duration<double>(end-start).count()
+    cout << endl << query.getSize() << " articles in " << std::chrono::duration<double>(end-start).count()
          << " seconds." << endl;
 
     string tempChoice;
     int choice;
     bool done = false;
     while(!done) {
-        cout << "Enter a number corresponding to a article to see the text (-1 to quit): ";
+        cout << "\nEnter a number corresponding to a article to see the text (-1 to quit): ";
         getline(cin, tempChoice);
         choice = stoi(tempChoice);
         if(choice == -1){

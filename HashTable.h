@@ -1,6 +1,8 @@
 //
 // Created by leila on 4/25/2022.
 //
+// Resources: https://www.geeksforgeeks.org/implementing-hash-table-open-addressing-linear-probing-cpp/?ref=gcse (explained hashtables pretty well)
+//
 
 #ifndef INC_22S_FINAL_PROJ_HASHTABLE_H
 #define INC_22S_FINAL_PROJ_HASHTABLE_H
@@ -20,7 +22,6 @@ class HashTable{
 private:
     int size = 0;
     int capacity = 100000;
-    //pair will be <string, vector<Article>
     vector<list<pair<K, V>>> table;
 public:
     HashTable();

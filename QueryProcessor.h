@@ -24,7 +24,7 @@ public:
     void addArticle(const string& word1, IndexHandler& indexer); //for single word queries
     void addPersonArticles(const string& person, IndexHandler& indexer);
     void addOrgArticles(const string& person, IndexHandler& indexer);
-    void removeArticles(vector<string> words, IndexHandler& indexer);
+    void removeArticles(const vector<string>& words, IndexHandler& indexer);
     void printMatches();
     int getSize();
     set<Article>& getMatches();

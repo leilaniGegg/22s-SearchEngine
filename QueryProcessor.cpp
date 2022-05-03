@@ -159,7 +159,7 @@ void QueryProcessor::addOrgArticles(const string& org, IndexHandler& indexer){
     }
 }
 
-void QueryProcessor::removeArticles(vector<string> words, IndexHandler& indexer){
+void QueryProcessor::removeArticles(const vector<string>& words, IndexHandler& indexer){
     //I think this will work, will find the difference and result in set with elements in matches but not in word1Articles
 
     for(int i = 0; i < words.size(); i++) {

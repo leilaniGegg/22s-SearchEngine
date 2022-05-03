@@ -19,7 +19,6 @@ private:
 public:
     SearchEngine();
     void printMenu();
-    void processCorpus(const string& directoryName);
     //for speed demo
     void parseQuery(const string& request);
 
